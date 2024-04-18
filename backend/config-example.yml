@@ -1,0 +1,8 @@
+api_port: 5678
+database_driver: memory
+sql_database:
+  host: localhost
+  port: 5432
+  username: your_username
+  password: your_password
+  database: your_database

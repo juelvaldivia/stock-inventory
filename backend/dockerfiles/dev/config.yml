@@ -1,0 +1,9 @@
+api_port: $API_PORT
+database_driver: $DATABASE_DRIVER
+sql_database:
+  host: $DATABASE_HOST
+  port: $DATABASE_PORT
+  database: $DATABASE_NAME
+  user: $DATABASE_USER
+  password: $DATABASE_PASSWORD
+  sslmode: $DATABASE_SSL_MODE
