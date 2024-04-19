@@ -8,8 +8,14 @@ import (
 
 type BrandsStore interface {
 	FindAll() ([]entities.Brand, error)
-	Create(product entities.Brand) error
+	Create(brand entities.Brand) error
 	FindById(id uuid.UUID) (entities.Brand, error)
+}
+
+type ClientsStore interface {
+	FindAll() ([]entities.Client, error)
+	Create(client entities.Client) error
+	FindById(id uuid.UUID) (entities.Client, error)
 }
 
 type ProductsStore interface {
@@ -26,6 +32,7 @@ type UsersStore interface {
 
 type Database interface {
 	Brands() BrandsStore
+	Clients() ClientsStore
 	Products() ProductsStore
 	Users() UsersStore
 }

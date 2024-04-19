@@ -49,10 +49,11 @@ func (connection *SqlConnection) Create(brand entities.Brand) error {
 
 func (connection *SqlConnection) FindById(id uuid.UUID) (entities.Brand, error) {
 	var brand entities.Brand
+	var query = `SELECT id, name, logo FROM brands WHERE id = $1`
 
-	if err := connection.Get(&brand, `SELECT * FROM brands WHERE id = $1`, id); err != nil {
+	if err := connection.Get(&brand, query, id); err != nil {
 		return entities.Brand{}, errors.Join(ErrFindingBrand, err)
 	}
 
-	return entities.Brand{}, nil
+	return brand, nil
 }

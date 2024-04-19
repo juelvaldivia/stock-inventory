@@ -18,12 +18,12 @@ func (controller *ProductsController) CreateProduct(response http.ResponseWriter
 		return
 	}
 
-	user, err := products.Create(database, newProduct)
+	product, err := products.Create(database, newProduct)
 
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	responses.Json(response, http.StatusCreated, user)
+	responses.Json(response, http.StatusCreated, product)
 }

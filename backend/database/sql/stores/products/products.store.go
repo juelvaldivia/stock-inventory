@@ -56,10 +56,14 @@ func (connection *SqlConnection) Create(product entities.Product) error {
 
 func (connection *SqlConnection) FindById(id uuid.UUID) (entities.Product, error) {
 	var product entities.Product
+	var query = `SELECT
+								 id, name, category, price, stockquantity AS stockQuantity, brand_id as brandId
+							 FROM products
+							 WHERE id = $1`
 
-	if err := connection.Get(&product, `SELECT * FROM products WHERE id = $1`, id); err != nil {
+	if err := connection.Get(&product, query, id); err != nil {
 		return entities.Product{}, errors.Join(ErrFindingProduct, err)
 	}
 
-	return entities.Product{}, nil
+	return product, nil
 }

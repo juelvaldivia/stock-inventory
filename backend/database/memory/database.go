@@ -4,19 +4,22 @@ import (
 	"stock-inventory/database/interfaces"
 
 	brandsStore "stock-inventory/database/memory/stores/brands"
+	clientsStore "stock-inventory/database/memory/stores/clients"
 	productsStore "stock-inventory/database/memory/stores/products"
 	usersStore "stock-inventory/database/memory/stores/users"
 )
 
 type MemoryDatabase struct {
-	usersStore    interfaces.UsersStore
-	productsStore interfaces.ProductsStore
 	brandsStore   interfaces.BrandsStore
+	clientsStore  interfaces.ClientsStore
+	productsStore interfaces.ProductsStore
+	usersStore    interfaces.UsersStore
 }
 
 func New() *MemoryDatabase {
 	return &MemoryDatabase{
 		brandsStore:   brandsStore.New(),
+		clientsStore:  clientsStore.New(),
 		productsStore: productsStore.New(),
 		usersStore:    usersStore.New(),
 	}
@@ -24,6 +27,10 @@ func New() *MemoryDatabase {
 
 func (database *MemoryDatabase) Brands() interfaces.BrandsStore {
 	return database.brandsStore
+}
+
+func (database *MemoryDatabase) Clients() interfaces.ClientsStore {
+	return database.clientsStore
 }
 
 func (database *MemoryDatabase) Products() interfaces.ProductsStore {

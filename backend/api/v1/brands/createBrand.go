@@ -18,12 +18,12 @@ func (controller *BrandsController) CreateBrand(response http.ResponseWriter, re
 		return
 	}
 
-	user, err := brands.Create(database, newBrand)
+	brand, err := brands.Create(database, newBrand)
 
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	responses.Json(response, http.StatusCreated, user)
+	responses.Json(response, http.StatusCreated, brand)
 }

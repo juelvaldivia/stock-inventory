@@ -52,10 +52,16 @@ func (connection *SqlConnection) Create(user entities.User) error {
 
 func (connection *SqlConnection) FindById(id uuid.UUID) (entities.User, error) {
 	var user entities.User
+	var query = `SELECT
+								 id, user_id as userId, full_name as fullName, phone, email, username,
+								 last_session_date as lastSessionDate, created_at as createdAt,
+								 updated_at as updatedAt
+							 FROM users
+							 WHERE id = $1`
 
-	if err := connection.Get(&user, `SELECT * FROM users WHERE id = $1`, id); err != nil {
+	if err := connection.Get(&user, query, id); err != nil {
 		return entities.User{}, errors.Join(ErrFindingUser, err)
 	}
 
-	return entities.User{}, nil
+	return user, nil
 }

@@ -10,6 +10,7 @@ import (
 	"stock-inventory/database/interfaces"
 
 	brandsStore "stock-inventory/database/sql/stores/brands"
+	clientsStore "stock-inventory/database/sql/stores/clients"
 	productsStore "stock-inventory/database/sql/stores/products"
 	usersStore "stock-inventory/database/sql/stores/users"
 )
@@ -31,9 +32,10 @@ func getPostgresDSN(sqlConfig config.SQLConfig) string {
 }
 
 type SqlDatabase struct {
-	usersStore    interfaces.UsersStore
-	productsStore interfaces.ProductsStore
 	brandsStore   interfaces.BrandsStore
+	clientsStore  interfaces.ClientsStore
+	productsStore interfaces.ProductsStore
+	usersStore    interfaces.UsersStore
 }
 
 func New(sqlConfig config.SQLConfig) (*SqlDatabase, error) {
@@ -50,14 +52,19 @@ func New(sqlConfig config.SQLConfig) (*SqlDatabase, error) {
 	}
 
 	return &SqlDatabase{
-		usersStore:    usersStore.New(connection),
-		productsStore: productsStore.New(connection),
 		brandsStore:   brandsStore.New(connection),
+		clientsStore:  clientsStore.New(connection),
+		productsStore: productsStore.New(connection),
+		usersStore:    usersStore.New(connection),
 	}, nil
 }
 
 func (database *SqlDatabase) Brands() interfaces.BrandsStore {
 	return database.brandsStore
+}
+
+func (database *SqlDatabase) Clients() interfaces.ClientsStore {
+	return database.clientsStore
 }
 
 func (database *SqlDatabase) Products() interfaces.ProductsStore {
