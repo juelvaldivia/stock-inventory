@@ -1,5 +1,5 @@
 CREATE TABLE clients (
-  id UUID PRIMARY KEY,
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
   names VARCHAR(255) NOT NULL,
   first_last_name VARCHAR(255) NOT NULL,
   second_last_name VARCHAR(255),

@@ -1,4 +1,4 @@
-package usersRouter
+package routers
 
 import (
 	chi "github.com/go-chi/chi/v5"
@@ -11,7 +11,7 @@ type UsersRouter struct {
 	App *app.App
 }
 
-func New(app *app.App) *UsersRouter {
+func UsersRouterNew(app *app.App) *UsersRouter {
 	return &UsersRouter{
 		App: app,
 	}

@@ -4,15 +4,12 @@ import (
 	"fmt"
 	"stock-inventory/config"
 	"stock-inventory/database/interfaces"
-	usersStore "stock-inventory/database/sql/stores"
+	productsStore "stock-inventory/database/sql/stores/products"
+	usersStore "stock-inventory/database/sql/stores/users"
 
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
-
-type SqlDatabase struct {
-	usersStore interfaces.UsersStore
-}
 
 func getPostgresDSN(sqlConfig config.SQLConfig) string {
 	dsn := "postgres://"
@@ -30,6 +27,11 @@ func getPostgresDSN(sqlConfig config.SQLConfig) string {
 	return dsn
 }
 
+type SqlDatabase struct {
+	usersStore    interfaces.UsersStore
+	productsStore interfaces.ProductsStore
+}
+
 func New(sqlConfig config.SQLConfig) (*SqlDatabase, error) {
 	dsn := getPostgresDSN(sqlConfig)
 
@@ -44,10 +46,15 @@ func New(sqlConfig config.SQLConfig) (*SqlDatabase, error) {
 	}
 
 	return &SqlDatabase{
-		usersStore: usersStore.New(connection),
+		usersStore:    usersStore.New(connection),
+		productsStore: productsStore.New(connection),
 	}, nil
 }
 
 func (database *SqlDatabase) Users() interfaces.UsersStore {
 	return database.usersStore
+}
+
+func (database *SqlDatabase) Products() interfaces.ProductsStore {
+	return database.productsStore
 }

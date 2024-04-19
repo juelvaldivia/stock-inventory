@@ -1,4 +1,4 @@
-package SQLUsersStore
+package usersStore
 
 import (
 	"errors"
