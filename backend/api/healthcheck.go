@@ -1,9 +1,9 @@
 package api
 
 import (
-	http "net/http"
+	"net/http"
 
-	responses "stock-inventory/api/responses"
+	"stock-inventory/api/responses"
 )
 
 func (api *API) HealthCheck(response http.ResponseWriter, request *http.Request) {

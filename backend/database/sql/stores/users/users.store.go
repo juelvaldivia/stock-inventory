@@ -2,10 +2,11 @@ package usersStore
 
 import (
 	"errors"
-	"stock-inventory/app/entities"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+
+	"stock-inventory/app/entities"
 )
 
 var ErrCreatingUser = errors.New("error creating user")

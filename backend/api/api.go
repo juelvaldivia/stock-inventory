@@ -1,10 +1,10 @@
 package api
 
 import (
-	chi "github.com/go-chi/chi/v5"
-	middleware "github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 
-	app "stock-inventory/app"
+	"stock-inventory/app"
 )
 
 type API struct {

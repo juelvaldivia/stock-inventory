@@ -10,8 +10,8 @@ import (
 	"stock-inventory/database/sql"
 )
 
-var UnsupportedDatabase = errors.New("unsupported database type")
-var SqlConnectionFails = errors.New("sql connection fails")
+var ErrUnsupportedDatabase = errors.New("unsupported database type")
+var ErrSqlConnectionFails = errors.New("sql connection fails")
 
 type Factory struct {
 	Config config.Config
@@ -36,12 +36,12 @@ func (factory *Factory) BuildDatabase() (interfaces.Database, error) {
 		database, err := sql.New(sqlConfig)
 
 		if err != nil {
-			return nil, fmt.Errorf("%w: %s", SqlConnectionFails, err)
+			return nil, fmt.Errorf("%w: %s", ErrSqlConnectionFails, err)
 		}
 
 		return database, nil
 	default:
-		return nil, fmt.Errorf("%w", driver)
+		return nil, fmt.Errorf("%w: %s", ErrUnsupportedDatabase, driver)
 	}
 
 	return database, nil

@@ -1,10 +1,10 @@
 package users
 
 import (
+	"github.com/google/uuid"
+
 	"stock-inventory/app/entities"
 	"stock-inventory/database/interfaces"
-
-	"github.com/google/uuid"
 )
 
 func FindUserById(database interfaces.Database, id uuid.UUID) (entities.User, error) {

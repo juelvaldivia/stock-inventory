@@ -2,10 +2,11 @@ package usersController
 
 import (
 	"net/http"
-	"stock-inventory/app/users"
 
-	chi "github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
+
+	"stock-inventory/app/users"
 
 	"stock-inventory/api/responses"
 )

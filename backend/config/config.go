@@ -1,19 +1,19 @@
 package config
 
 import (
-	errors "errors"
-	fmt "fmt"
+	"errors"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
 
-	viper "github.com/spf13/viper"
+	"github.com/spf13/viper"
 )
 
 var (
-	FailedReadConfigFile      = errors.New("failed to read config file")
-	FailedBuildConfig         = errors.New("failed to unmarshal config")
-	MissingDatabaseConfigKeys = errors.New("missing required keys in sql_database configuration")
+	ErrFailedReadConfigFile      = errors.New("failed to read config file")
+	ErrFailedBuildConfig         = errors.New("failed to unmarshal config")
+	ErrMissingDatabaseConfigKeys = errors.New("missing required keys in sql_database configuration")
 )
 
 type Config struct {
@@ -81,11 +81,11 @@ func readAndUnmarshalConfig(configPath string, configuration *Config) error {
 	viper.SetConfigType("yaml")
 
 	if err := viper.ReadInConfig(); err != nil {
-		return fmt.Errorf("%w: %v", FailedReadConfigFile, err)
+		return fmt.Errorf("%w: %v", ErrFailedReadConfigFile, err)
 	}
 
 	if err := viper.Unmarshal(configuration); err != nil {
-		return fmt.Errorf("%w: %v", FailedBuildConfig, err)
+		return fmt.Errorf("%w: %v", ErrFailedBuildConfig, err)
 	}
 
 	return nil
@@ -97,7 +97,7 @@ func validateSQLDatabaseConfig(sqlConfig SQLConfig) error {
 		sqlConfig.User == "" ||
 		sqlConfig.Database == "" ||
 		(sqlConfig.Password != nil && sqlConfig.Password == "") {
-		return fmt.Errorf("%w expected: %v", MissingDatabaseConfigKeys, expectDatabaseConfig())
+		return fmt.Errorf("%w expected: %v", ErrMissingDatabaseConfigKeys, expectDatabaseConfig())
 	}
 
 	return nil

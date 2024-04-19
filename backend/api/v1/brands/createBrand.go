@@ -1,24 +1,24 @@
-package usersController
+package brandsController
 
 import (
 	"encoding/json"
 	"net/http"
 
 	"stock-inventory/api/responses"
+	"stock-inventory/app/brands"
 	"stock-inventory/app/entities"
-	"stock-inventory/app/users"
 )
 
-func (controller *UsersController) CreateUser(response http.ResponseWriter, request *http.Request) {
-	var newUser entities.User
+func (controller *BrandsController) CreateBrand(response http.ResponseWriter, request *http.Request) {
+	var newBrand entities.Brand
 	var database = controller.App.Database
 
-	if err := json.NewDecoder(request.Body).Decode(&newUser); err != nil {
+	if err := json.NewDecoder(request.Body).Decode(&newBrand); err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	user, err := users.Create(database, newUser)
+	user, err := brands.Create(database, newBrand)
 
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusInternalServerError)

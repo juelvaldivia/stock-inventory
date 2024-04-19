@@ -1,11 +1,11 @@
 package usersStore
 
 import (
-	errors "errors"
-
-	entities "stock-inventory/app/entities"
+	"errors"
 
 	"github.com/google/uuid"
+
+	"stock-inventory/app/entities"
 )
 
 var ErrUserNotFound = errors.New("user not found")

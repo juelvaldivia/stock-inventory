@@ -3,9 +3,9 @@ package productsStore
 import (
 	"errors"
 
-	"stock-inventory/app/entities"
-
 	"github.com/google/uuid"
+
+	"stock-inventory/app/entities"
 )
 
 var ErrProductNotFound = errors.New("product not found")

@@ -1,4 +1,4 @@
-package productsController
+package brandsController
 
 import (
 	"net/http"
@@ -7,27 +7,27 @@ import (
 	"github.com/google/uuid"
 
 	"stock-inventory/api/responses"
-	"stock-inventory/app/products"
+	"stock-inventory/app/brands"
 )
 
-func (controller *ProductsController) FindProductById(response http.ResponseWriter, request *http.Request) {
+func (controller *BrandsController) FindBrandById(response http.ResponseWriter, request *http.Request) {
 	var database = controller.App.Database
 
-	productId := chi.URLParam(request, "id")
+	brandId := chi.URLParam(request, "id")
 
-	id, err := uuid.Parse(productId)
+	id, err := uuid.Parse(brandId)
 
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	product, err := products.FindById(database, id)
+	brand, err := brands.FindById(database, id)
 
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	responses.Json(response, http.StatusOK, product)
+	responses.Json(response, http.StatusOK, brand)
 }

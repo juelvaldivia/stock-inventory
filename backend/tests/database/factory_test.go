@@ -52,5 +52,5 @@ func TestBuildDatabaseWithUnsupportedDriver(t *testing.T) {
 
 	_, err := factory.BuildDatabase()
 
-	assert.ErrorIs(t, err, database.UnsupportedDatabase, "Expected UnsupportedDatabase error, got different error or no error")
+	assert.ErrorIs(t, err, database.ErrUnsupportedDatabase, "Expected UnsupportedDatabase error, got different error or no error")
 }

@@ -1,15 +1,15 @@
 package interfaces
 
 import (
-	"stock-inventory/app/entities"
-
 	"github.com/google/uuid"
+
+	"stock-inventory/app/entities"
 )
 
-type UsersStore interface {
-	All() ([]entities.User, error)
-	Create(user entities.User) error
-	FindById(id uuid.UUID) (entities.User, error)
+type BrandsStore interface {
+	FindAll() ([]entities.Brand, error)
+	Create(product entities.Brand) error
+	FindById(id uuid.UUID) (entities.Brand, error)
 }
 
 type ProductsStore interface {
@@ -18,7 +18,14 @@ type ProductsStore interface {
 	FindById(id uuid.UUID) (entities.Product, error)
 }
 
+type UsersStore interface {
+	All() ([]entities.User, error)
+	Create(user entities.User) error
+	FindById(id uuid.UUID) (entities.User, error)
+}
+
 type Database interface {
-	Users() UsersStore
+	Brands() BrandsStore
 	Products() ProductsStore
+	Users() UsersStore
 }

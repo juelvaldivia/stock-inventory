@@ -11,9 +11,11 @@ func (api *API) RoutesApiV1() chi.Router {
 
 	usersRouter := routers.UsersRouterNew(api.App)
 	productsRouter := routers.ProductsRouterNew(api.App)
+	brandsRouter := routers.BrandsRouterNew(api.App)
 
-	router.Mount("/users", usersRouter.GetRoutes())
+	router.Mount("/brands", brandsRouter.GetRoutes())
 	router.Mount("/products", productsRouter.GetRoutes())
+	router.Mount("/users", usersRouter.GetRoutes())
 
 	return router
 }

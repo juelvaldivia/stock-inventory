@@ -1,7 +1,7 @@
 package routers
 
 import (
-	chi "github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5"
 
 	usersController "stock-inventory/api/v1/users"
 	"stock-inventory/app"

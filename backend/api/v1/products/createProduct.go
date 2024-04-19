@@ -3,6 +3,7 @@ package productsController
 import (
 	"encoding/json"
 	"net/http"
+
 	"stock-inventory/api/responses"
 	"stock-inventory/app/entities"
 	"stock-inventory/app/products"
