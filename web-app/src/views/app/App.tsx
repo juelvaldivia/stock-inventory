@@ -1,11 +1,12 @@
 import React from 'react';
-import MyAppBar from '../appbar/MyAppBar';
+
+import AppBar from '../appBar/CustomAppBar';
 import ProductList from '../products/components/ProductList';
 
 const App: React.FC = () => {
   return (
     <>
-      <MyAppBar />
+      <AppBar />
       <ProductList />
     </>
   );

@@ -1,5 +1,5 @@
-import ProductRepository from "../ProductRepository";
-import Product from "../../entities/Product";
+import ProductRepository from '../ProductRepository';
+import Product from '../../entities/Product';
 
 const products = [
     {

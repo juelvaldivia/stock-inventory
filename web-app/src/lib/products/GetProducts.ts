@@ -1,8 +1,8 @@
-import ProductRepository from "../data/ProductRepository";
-import Product from "../entities/Product";
+import ProductRepository from '../api/ProductRepository';
+import Product from '../entities/Product';
 
 
-export default class GetProductsUseCase {
+export default class GetProducts {
     private productRepository: ProductRepository;
 
     constructor(productRepository: ProductRepository) {

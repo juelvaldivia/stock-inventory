@@ -1,16 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  Grid,
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  CardActions,
-  Button
-} from '@material-ui/core';
+import { Grid, Card, CardMedia, CardContent, Typography } from '@material-ui/core';
 import Product from '../../../lib/entities/Product';
-import { useCartBloc } from '../../app/App';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -45,7 +36,6 @@ interface ProductListProps {
 
 const ProductItem: React.FC<ProductListProps> = ({ product }) => {
   const classes = useStyles();
-  const bloc = useCartBloc();
 
   return (
     <Grid item xs={6} sm={4} md={3} lg={2}>
@@ -56,17 +46,12 @@ const ProductItem: React.FC<ProductListProps> = ({ product }) => {
             {product.title}
           </Typography>
           <Typography variant="h6" className={classes.productPrice}>
-            {product.price.toLocaleString('es-ES', {
+            {product.price.toLocaleString('es-MX', {
               style: 'currency',
-              currency: 'EUR'
+              currency: 'MXN'
             })}
           </Typography>
         </CardContent>
-        <CardActions className={classes.cardActions}>
-          <Button size="small" color="primary" onClick={() => bloc.addProductToCart(product)}>
-            Add to Cart
-          </Button>
-        </CardActions>
       </Card>
     </Grid>
   );

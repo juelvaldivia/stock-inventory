@@ -1,25 +1,26 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { CircularProgress, Grid, Container, Box, Typography } from '@material-ui/core';
-import ProductItem from './ProductItem';
-import * as DependenciesProvider from '../../../DependenciesProvider';
-import { BlocBuilder } from '../../common/bloc';
-import { ProductsState } from '../ProductsState';
+import {makeStyles} from '@material-ui/core/styles';
+import {CircularProgress, Grid, Container, Box, Typography} from '@material-ui/core';
 
-const useStyles = makeStyles((theme) => ({
+import * as DependenciesProvider from '../../../DependenciesProvider';
+import ProductItem from './ProductItem';
+import {BlocBuilder} from '../../common/bloc';
+import {ProductsState} from '../ProductsState';
+
+const useStyles = makeStyles(theme => ({
   titleContainer: {
-    marginBottom: theme.spacing(4)
+    marginBottom: theme.spacing(4),
   },
   cardGrid: {
     paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4)
+    paddingBottom: theme.spacing(4),
   },
   infoContainer: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '100vh'
-  }
+    height: '100vh',
+  },
 }));
 
 const ProductList: React.FC = () => {
@@ -49,7 +50,7 @@ const ProductList: React.FC = () => {
           case 'ErrorProductsState': {
             return (
               <div className={classes.infoContainer}>
-                <Typography display="inline" variant="h5" component="h2">
+                <Typography display='inline' variant='h5' component='h2'>
                   {state.error}
                 </Typography>
               </div>
@@ -57,13 +58,13 @@ const ProductList: React.FC = () => {
           }
           case 'LoadedProductsState': {
             return (
-              <Container className={classes.cardGrid} maxWidth="xl">
+              <Container className={classes.cardGrid} maxWidth='xl'>
                 <Box className={classes.titleContainer}>
-                  <Typography display="inline" variant="h6" component="h2">
+                  <Typography display='inline' variant='h6' component='h2'>
                     {'Results for '}
                   </Typography>
-                  <Typography color="primary" display="inline" variant="h6" component="h2">
-                    "Element"
+                  <Typography color='primary' display='inline' variant='h6' component='h2'>
+                    'Element'
                   </Typography>
                 </Box>
                 <Grid container spacing={2}>
