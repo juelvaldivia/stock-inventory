@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 
 	"stock-inventory/app/entities"
+	"stock-inventory/database/utils"
 )
 
 var ErrProductNotFound = errors.New("product not found")
@@ -20,19 +21,32 @@ func New() *ProductStore {
 	}
 }
 
-func (store *ProductStore) FindAll() ([]entities.Product, error) {
+func (store *ProductStore) FindAll(pagination *utils.Pagination) (entities.ProductsList, error) {
 	products := make([]entities.Product, 0, len(store.Products))
 
 	for _, product := range store.Products {
 		products = append(products, product)
 	}
 
-	return products, nil
+	totalItems := len(products)
+
+	productsList := entities.ProductsList{
+		TotalItems:  totalItems,
+		TotalPages:  pagination.CalculateTotalPages(totalItems),
+		CurrentPage: pagination.Page,
+		PerPage:     pagination.PerPage,
+		Items:       products,
+	}
+
+	return productsList, nil
 }
 
-func (store *ProductStore) Create(product entities.Product) error {
-	store.Products[product.Id.String()] = product
-	return nil
+func (store *ProductStore) Create(product entities.Product) (entities.Product, error) {
+	newProduct := product
+
+	store.Products[product.Id.String()] = newProduct
+
+	return newProduct, nil
 }
 
 func (store *ProductStore) FindById(id uuid.UUID) (entities.Product, error) {

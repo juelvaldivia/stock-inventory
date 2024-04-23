@@ -4,6 +4,7 @@ import (
 	"github.com/google/uuid"
 
 	"stock-inventory/app/entities"
+	"stock-inventory/database/utils"
 )
 
 type BrandsStore interface {
@@ -19,8 +20,8 @@ type ClientsStore interface {
 }
 
 type ProductsStore interface {
-	FindAll() ([]entities.Product, error)
-	Create(product entities.Product) error
+	FindAll(pagination *utils.Pagination) (entities.ProductsList, error)
+	Create(product entities.Product) (entities.Product, error)
 	FindById(id uuid.UUID) (entities.Product, error)
 }
 
