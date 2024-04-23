@@ -14,10 +14,13 @@ export class ProductsBloc extends Bloc<ProductsState> {
                 products: products,
                 searchTerm: this.state.searchTerm
             }))
-            .catch(error => this.changeState({
+            .catch(error => {
+                console.error(error);
+                this.changeState({
                 kind: 'ErrorProductsState',
                 error: 'An error has ocurred loading products',
                 searchTerm: this.state.searchTerm
-            }));
+            })
+        });
     }
 }

@@ -67,7 +67,7 @@ func (connection *SqlConnection) Create(product entities.Product) (entities.Prod
 		`INSERT INTO products
 			(name, category, price, stockquantity, brand_id)
 		VALUES ($1, $2, $3, $4, $5)
-		RETURNING id, name, category, price, stockquantity AS stockQuantity, brand_id as brandId`,
+		RETURNING id, name, category, price, stockquantity AS stockQuantity, brand_id AS brandId`,
 		product.Name,
 		product.Category,
 		product.Price,
@@ -79,17 +79,24 @@ func (connection *SqlConnection) Create(product entities.Product) (entities.Prod
 		return entities.Product{}, errors.Join(ErrCreatingProduct, err)
 	}
 
-	return newProduct, nil
+	productCreated, err := connection.FindById(newProduct.Id)
+	if err != nil {
+		return entities.Product{}, errors.Join(ErrCreatingProduct, err)
+	}
+
+	return productCreated, nil
 }
 
 func (connection *SqlConnection) FindById(id uuid.UUID) (entities.Product, error) {
 	var product entities.Product
 	var query = `SELECT
-								 id, name, category, price, stockquantity AS stockQuantity, brand_id as brandId
+								 id, name, category, price, stockquantity AS stockQuantity, brand_id AS brandId
 							 FROM products
 							 WHERE id = $1`
 
-	if err := connection.Get(&product, query, id); err != nil {
+	err := connection.Get(&product, query, id)
+
+	if err != nil {
 		return entities.Product{}, errors.Join(ErrFindingProduct, err)
 	}
 

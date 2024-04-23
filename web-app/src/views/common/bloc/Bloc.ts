@@ -13,7 +13,6 @@ abstract class Bloc<S> {
     }
 
     changeState(state: S) {
-        debugger;
         this.internalState = state;
 
         if (this.listeners.length > 0) {

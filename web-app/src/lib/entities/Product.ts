@@ -1,6 +1,15 @@
 export default interface Product {
     id: string
-    image: string,
-    title: string,
+    name: string,
+    category: string,
     price: number
+    stockQuantity: number
+}
+
+export interface ProductsList {
+    totalItems: number;
+    totalPages: number;
+    currentPage: number;
+    perPage: number;
+    items: Product[];
 }

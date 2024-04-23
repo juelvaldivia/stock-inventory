@@ -40,10 +40,10 @@ const ProductItem: React.FC<ProductListProps> = ({ product }) => {
   return (
     <Grid item xs={6} sm={4} md={3} lg={2}>
       <Card className={classes.card}>
-        <CardMedia className={classes.cardMedia} image={product.image} title="Image title" />
+        {/* <CardMedia className={classes.cardMedia} image={product.image} title="Image title" /> */}
         <CardContent className={classes.cardContent}>
           <Typography className={classes.productTitle} gutterBottom variant="subtitle1">
-            {product.title}
+            {product.name}
           </Typography>
           <Typography variant="h6" className={classes.productPrice}>
             {product.price.toLocaleString('es-MX', {
