@@ -1,18 +1,16 @@
 import type { NextPage } from 'next';
-import Head from 'next/head';
 import ProductList from './products/ProductList';
 
 const Index: NextPage = () => {
   return (
     <>
-      <Head>
-        <title>Inventory </title>
-        <meta charSet="UTF-8" />
-        <meta name="description" content="Inventory stock of shoes" />
-        <meta name="author" content="Juel Valdivia" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <header className="w-95 flex justify-end flex-wrap">
+        <ul className="pt-12">
+          <i className="fa fa-shopping-cart">
+            <span className="counter"></span>
+          </i>
+        </ul>
+      </header>
       <ProductList />
     </>
   );

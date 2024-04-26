@@ -35,7 +35,7 @@ const ProductList: React.FC = () => {
           <div className="mb-16">
             <button color="primary">Registrar producto</button>
           </div>
-          <div className="grid flex flex-row gap-5 grid-cols-5 grid-rows-5">
+          <div className="row flex flex-wrap justify-start">
             {state.products.map((product, index) => (
               <ProductItem product={product} key={index} />
             ))}
