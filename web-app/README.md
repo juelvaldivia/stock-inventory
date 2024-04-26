@@ -1,69 +1,36 @@
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## State managements strategies
+## Getting Started
 
-* Branch [Lifting state up](https://github.com/xurxodev/shopping-cart-react/tree/lifting-state-up)
-* Branch [BLoC Pattern](https://github.com/xurxodev/shopping-cart-react/tree/bloc-pattern)
+First, run the development server:
 
-## Clean Architecture
-
-All strategies uses Clean architecture
-
-![bloc-clean-architecture](https://user-images.githubusercontent.com/5593590/82728951-03ec6a00-9cf4-11ea-8557-011a3dea7804.png)
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### Install dependencies
-
-Run:
-
-```
-$ yarn
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-### Development
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Start development server:
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-```
-$ yarn start
-```
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Learn More
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+To learn more about Next.js, take a look at the following resources:
 
-### Testing
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Run unit tests:
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-```
-$ yarn test
-```
+## Deploy on Vercel
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-## Production
-
-Start development server:
-```
-$ yarn build
-```
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-## Libraries used in this project
-* [reactjs](https://reactjs.org/)
-* [material-ui](https://material-ui.com/)
-* [jest](https://jestjs.io/)
-
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.

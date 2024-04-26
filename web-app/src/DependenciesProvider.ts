@@ -1,13 +1,11 @@
-import GetProducts from "./lib/products/GetProducts";
-import ProductInMemoryRepository from "./lib/api/products/ProductInMemoryRepository";
-import { ProductsBloc } from "./views/products/ProductsBloc";
-import ProductsAPIRepository from "./lib/api/products/ProductsAPIRepository";
+import GetProducts from "@/core/products/GetProducts.ts";
+import ProductsObserver from "@/core/products/ProductsObserver.ts";
+import ProductsAPIRepository from "@/core/api/products/ProductsAPIRepository.ts";
 
-export function provideProductsBloc(): ProductsBloc {
+export function provideProductsStateObserver(): ProductsObserver {
     // TODO: Must be implement abstract interface for data or stores
     const productRepository = new ProductsAPIRepository();
     const getProductsUseCase = new GetProducts(productRepository);
-    const productsPresenter = new ProductsBloc(getProductsUseCase);
 
-    return productsPresenter;
+    return new ProductsObserver(getProductsUseCase);
 }
