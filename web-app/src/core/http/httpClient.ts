@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+
 import HttpErrorHandler from '@/core/http/httpErrorHandler';
 
 class HttpClient {

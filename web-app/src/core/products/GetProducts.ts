@@ -1,14 +1,14 @@
-import ProductRepository from '@/core/api/ProductRepository';
 import { Product } from '@/core/entities/Product';
+import { API } from '../api';
 
 export default class GetProducts {
-    private productRepository: ProductRepository;
+    private api: API;
 
-    constructor(productRepository: ProductRepository) {
-        this.productRepository = productRepository;
+    constructor(api: API) {
+        this.api = api;
     }
 
-    execute(filter:string): Promise<Array<Product>>{
-        return this.productRepository.get(filter);
+    execute(filter:string): Promise<Product[]>{
+        return this.api.products().get(filter);
     }
 }

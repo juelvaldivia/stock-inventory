@@ -30,31 +30,6 @@
   font-weight: 700;
 }
 
-html,
-body {
-  background: #eee5e9;
-}
-
-header {
-  width: 95%;
-  display: flex;
-  justify-content: flex-end;
-  flex-flow: row wrap;
-}
-header ul {
-  padding: 1.2em 0 0.5em;
-}
-header span {
-  padding: 0 0 0 0.5em;
-}
-header span,
-header i {
-  color: #2b2d42;
-}
-header i:nth-of-type(2) {
-  cursor: pointer;
-}
-
 .product, .product--pink, .product--yellow, .product--green, .product--red, .product--orange, .product--blue {
   box-shadow: 1px 5px 15px #ccc;
   width: 15em;
@@ -95,11 +70,11 @@ header i:nth-of-type(2) {
   flex-flow: column wrap;
 }
 .product_inner p {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(0, 0, 0, 0.566);
 }
 .product_inner button {
   border: 1px solid rgba(255, 255, 255, 0.5);
-  color: #fff;
+  color: rgba(0, 0, 0, 0.566);
   border-radius: 3px;
   padding: 1em 3em;
   margin: 1em 0 0 0;
@@ -114,7 +89,7 @@ header i:nth-of-type(2) {
 .product_inner button:before {
   font-family: FontAwesome;
   content: "";
-  color: #fff;
+  color: rgba(0, 0, 0, 0.566);
   position: absolute;
   font-size: 1.5em;
   margin: 0 -1.5em;

@@ -3,7 +3,7 @@
 import StateObserver from '@/core/common/StateObserver';
 import { useEffect, useState } from 'react';
 
-export function useStateObserverState<S>(observer: StateObserver<S>) {
+export function useObserverState<S>(observer: StateObserver<S>) {
   const [state, setState] = useState(observer.state);
 
   useEffect(() => {

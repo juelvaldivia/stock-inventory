@@ -1,11 +1,12 @@
 import GetProducts from "@/core/products/GetProducts.ts";
-import ProductsObserver from "@/core/products/ProductsObserver.ts";
-import ProductsAPIRepository from "@/core/api/products/ProductsAPIRepository.ts";
+import ProductsHandler from "@/core/products/ProductsHandler";
+import Api from "@/core/api"
 
-export function provideProductsStateObserver(): ProductsObserver {
-    // TODO: Must be implement abstract interface for data or stores
-    const productRepository = new ProductsAPIRepository();
-    const getProductsUseCase = new GetProducts(productRepository);
+export function provideProductsStateHandler(): ProductsHandler {
+    const api = new Api();
+    const getProductsUseCase = new GetProducts(api);
+    const productsHandler = new ProductsHandler(getProductsUseCase);
 
-    return new ProductsObserver(getProductsUseCase);
+    return productsHandler;
 }
+
