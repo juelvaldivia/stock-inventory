@@ -6,9 +6,15 @@ export default class ProductInAPIRepository implements ProductRepository {
   async get(filter: string): Promise<Product[]> {
     try {
       const httpClient = new HttpClient('http://localhost:4321');
-      const response = await httpClient.instance.get<ProductsList>('/api/v1/products');
+      let endpoint = '/api/v1/products';
 
-      return response.data.items;
+      if (filter !== undefined && filter !== null) {
+        endpoint += `?name=${filter}`;
+      }
+
+      const response = await httpClient.instance.get<ProductsList>(endpoint);
+
+      return response.data.items || [];
     } catch (error) {
       console.error(error)
       throw new Error('error getting products');

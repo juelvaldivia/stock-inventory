@@ -7,7 +7,7 @@ import ProductItem from './ProductItem';
 import { useObserverState } from '../common/StateObserverBuilder';
 import { Product } from '@/core/entities/Product';
 import { ProductsState } from '@/core/products/ProductsState';
-import ProductsHandler from '@/core/products/ProductsHandler';
+import SearchBar from '@/app/components/SearchBar';
 
 const assignColor = (productNumber: number) => {
   const colors = ['blue', 'orange', 'red', 'green', 'yellow', 'pink'];
@@ -24,19 +24,6 @@ const renderErrorState = (error: string) => (
   </div>
 );
 
-const renderProducts = (products: Product[]) => (
-  <div className="container mx-auto px-4">
-    <div className="mb-16">
-      <button color="primary">Registrar producto</button>
-    </div>
-    <div className="row flex flex-wrap justify-start">
-      {products.map((product, index) => (
-        <ProductItem product={product} color={assignColor(index)} key={index} />
-      ))}
-    </div>
-  </div>
-);
-
 const ProductList: React.FC = () => {
   const productsHandler = DependenciesProvider.provideProductsStateHandler();
   const state = useObserverState(productsHandler);
@@ -47,9 +34,13 @@ const ProductList: React.FC = () => {
     };
 
     return () => {
-      searchProducts('Element');
+      searchProducts('');
     };
   }, [productsHandler]);
+
+  const onSearchProducts = (name: string) => {
+    productsHandler.search(name);
+  };
 
   const renderState = (state: ProductsState) => {
     switch (state.kind) {
@@ -58,7 +49,18 @@ const ProductList: React.FC = () => {
       case 'ErrorProductsState':
         return renderErrorState(state.error);
       case 'LoadedProductsState':
-        return renderProducts(state.products);
+        return (
+          <div className="container mx-auto px-4">
+            <div className="mb-16">
+              <SearchBar onSearch={onSearchProducts} placeholder="Buscar por nombre..." />
+            </div>
+            <div className="row flex flex-wrap justify-start">
+              {state.products.map((product, index) => (
+                <ProductItem product={product} color={assignColor(index)} key={index} />
+              ))}
+            </div>
+          </div>
+        );
     }
   };
 

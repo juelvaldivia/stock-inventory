@@ -19,6 +19,7 @@ const ProductItem: React.FC<ProductListProps> = ({ product, color }) => {
         />
         <p>{product.name}</p>
         <p>Stock: {product.stockQuantity}</p>
+        <p>Categoría: {product.category}</p>
         <p>
           Price{' '}
           {product.price.toLocaleString('es-MX', {

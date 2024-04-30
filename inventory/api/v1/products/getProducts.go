@@ -19,7 +19,7 @@ func (controller *ProductsController) GetProducts(response http.ResponseWriter, 
 
 	perPageParam := queryValues.Get("perPage")
 	if perPageParam == "" {
-		perPageParam = "25"
+		perPageParam = "200"
 	}
 
 	page, err := strconv.Atoi(pageParam)
