@@ -6,6 +6,7 @@ import (
 
 	"stock-inventory/api/responses"
 	"stock-inventory/app/products"
+	"stock-inventory/database/filters"
 )
 
 func (controller *ProductsController) GetProducts(response http.ResponseWriter, request *http.Request) {
@@ -33,9 +34,21 @@ func (controller *ProductsController) GetProducts(response http.ResponseWriter, 
 		return
 	}
 
+	var dispersionFilters = filters.NewProductsFilters()
+	name := queryValues.Get("name")
+
+	if name != "" {
+		dispersionFilters.ByName(name)
+	}
+	category := queryValues.Get("category")
+
+	if category != "" {
+		dispersionFilters.ByCategory(category)
+	}
+
 	var database = controller.App.Database
 
-	result, err := products.FindAll(database, page, perPage)
+	result, err := products.FindAll(database, page, perPage, dispersionFilters)
 
 	if err != nil {
 		responses.Json(response, http.StatusInternalServerError, err.Error())

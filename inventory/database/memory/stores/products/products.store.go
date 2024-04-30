@@ -6,6 +6,7 @@ import (
 	"github.com/google/uuid"
 
 	"stock-inventory/app/entities"
+	"stock-inventory/database/filters"
 	"stock-inventory/database/utils"
 )
 
@@ -21,7 +22,7 @@ func New() *ProductStore {
 	}
 }
 
-func (store *ProductStore) FindAll(pagination *utils.Pagination) (entities.ProductsList, error) {
+func (store *ProductStore) FindAll(pagination *utils.Pagination, filters *filters.ProductsFilters) (entities.ProductsList, error) {
 	products := make([]entities.Product, 0, len(store.Products))
 
 	for _, product := range store.Products {

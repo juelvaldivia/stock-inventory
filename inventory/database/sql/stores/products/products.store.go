@@ -3,11 +3,13 @@ package productsStore
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 
 	"stock-inventory/app/entities"
+	"stock-inventory/database/filters"
 	"stock-inventory/database/utils"
 )
 
@@ -25,7 +27,7 @@ func New(connection *sqlx.DB) *SqlConnection {
 	}
 }
 
-func (connection *SqlConnection) FindAll(pagination *utils.Pagination) (entities.ProductsList, error) {
+func (connection *SqlConnection) FindAll(pagination *utils.Pagination, filters *filters.ProductsFilters) (entities.ProductsList, error) {
 	if pagination == nil {
 		pagination = utils.NewPagination(1, 25)
 	}
@@ -33,16 +35,27 @@ func (connection *SqlConnection) FindAll(pagination *utils.Pagination) (entities
 	var products []entities.Product
 	var totalItems int
 
+	queryCount := fmt.Sprintf("SELECT COUNT(*) FROM products")
+	queryCount, errApplyingCountFilters := applyFilters(queryCount, filters)
+	if errApplyingCountFilters != nil {
+		return entities.ProductsList{}, errApplyingCountFilters
+	}
+
+	errCountTotal := connection.DB.QueryRow(queryCount).Scan(&totalItems)
+	if errCountTotal != nil {
+		return entities.ProductsList{}, errors.Join(ErrGettingProducts, errCountTotal)
+	}
+
 	query := `SELECT
 							id, name, category, price, stockquantity AS stockQuantity, brand_id as brandId
 						FROM products`
 
-	query = applyPagination(query, pagination)
-
-	err := connection.DB.QueryRow("SELECT COUNT(*) FROM products").Scan(&totalItems)
-	if err != nil {
-		return entities.ProductsList{}, errors.Join(ErrGettingProducts, err)
+	query, errApplyingFilters := applyFilters(query, filters)
+	if errApplyingFilters != nil {
+		return entities.ProductsList{}, errApplyingFilters
 	}
+
+	query = applyPagination(query, pagination)
 
 	if err := connection.Select(&products, query); err != nil {
 		return entities.ProductsList{}, errors.Join(ErrGettingProducts, err)
@@ -105,4 +118,41 @@ func (connection *SqlConnection) FindById(id uuid.UUID) (entities.Product, error
 
 func applyPagination(query string, pagination *utils.Pagination) string {
 	return fmt.Sprintf("%s OFFSET %d LIMIT %d", query, pagination.Offset(), pagination.Limit())
+}
+
+func applyFilters(query string, filters *filters.ProductsFilters) (string, error) {
+	if filters != nil {
+		filterQuery := ""
+		hasFilter := false
+
+		if filters.Has("name") {
+			name, err := filters.Get("name")
+			if err != nil {
+				return query, err
+			}
+
+			filterQuery += fmt.Sprintf("LOWER(name) LIKE '%%%s%%'", strings.ToLower(name))
+			hasFilter = true
+		}
+
+		if filters.Has("category") {
+			category, err := filters.Get("category")
+			if err != nil {
+				return query, err
+			}
+
+			if hasFilter {
+				filterQuery += " AND "
+			}
+
+			filterQuery += fmt.Sprintf("LOWER(category) LIKE '%%%s%%'", strings.ToLower(category))
+			hasFilter = true
+		}
+
+		if hasFilter {
+			query += " WHERE " + filterQuery
+		}
+	}
+
+	return query, nil
 }
