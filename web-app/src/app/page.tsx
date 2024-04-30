@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
-import ProductList from './products/ProductList';
+
+import App from '@/app/App.tsx';
 
 const Index: NextPage = () => {
   return (
@@ -11,7 +12,8 @@ const Index: NextPage = () => {
           </i>
         </ul>
       </header>
-      <ProductList />
+
+      <App />
     </>
   );
 };

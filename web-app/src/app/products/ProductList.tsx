@@ -2,12 +2,10 @@
 
 import React, { useEffect } from 'react';
 
-import * as DependenciesProvider from '@/DependenciesProvider';
 import ProductItem from './ProductItem';
 import { useObserverState } from '../common/StateObserverBuilder';
-import { Product } from '@/core/entities/Product';
 import { ProductsState } from '@/core/products/ProductsState';
-import SearchBar from '@/app/components/SearchBar';
+import { useProductsHandler } from '../App';
 
 const assignColor = (productNumber: number) => {
   const colors = ['blue', 'orange', 'red', 'green', 'yellow', 'pink'];
@@ -25,7 +23,7 @@ const renderErrorState = (error: string) => (
 );
 
 const ProductList: React.FC = () => {
-  const productsHandler = DependenciesProvider.provideProductsStateHandler();
+  const productsHandler = useProductsHandler();
   const state = useObserverState(productsHandler);
 
   useEffect(() => {
@@ -38,10 +36,6 @@ const ProductList: React.FC = () => {
     };
   }, [productsHandler]);
 
-  const onSearchProducts = (name: string) => {
-    productsHandler.search(name);
-  };
-
   const renderState = (state: ProductsState) => {
     switch (state.kind) {
       case 'LoadingProductsState':
@@ -51,9 +45,6 @@ const ProductList: React.FC = () => {
       case 'LoadedProductsState':
         return (
           <div className="container mx-auto px-4">
-            <div className="mb-16">
-              <SearchBar onSearch={onSearchProducts} placeholder="Buscar por nombre..." />
-            </div>
             <div className="row flex flex-wrap justify-start">
               {state.products.map((product, index) => (
                 <ProductItem product={product} color={assignColor(index)} key={index} />
