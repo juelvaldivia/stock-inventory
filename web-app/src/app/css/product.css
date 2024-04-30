@@ -56,7 +56,6 @@
 }
 .product_inner button:before {
   font-family: FontAwesome;
-  content: "";
   color: rgba(0, 0, 0, 0.566);
   position: absolute;
   font-size: 1.5em;

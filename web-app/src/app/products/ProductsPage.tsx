@@ -32,25 +32,25 @@ const ProductsPage: React.FC = () => {
         {!stateRegisterProduct.open && (
           <button
             onClick={onProductsForm}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-[#92dce5] hover:bg-[#70c1b3] text-[#2f2f2f] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
-            Registrar
+            Registrar nuevo producto
           </button>
         )}
         {stateRegisterProduct.open && (
           <button
             onClick={onProductsForm}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="bg-[#92dce5] hover:bg-[#70c1b3] text-[#2f2f2f] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           >
-            Cerrar
+            Cerrar registro
           </button>
         )}
-
-        <RegisterProduct />
       </div>
       <div className="mx-auto px-4 flex justify-end">
         <SearchBar onSearch={onSearchProducts} placeholder="Buscar por nombre..." />
       </div>
+
+      <RegisterProduct />
       <ProductList></ProductList>
     </div>
   );

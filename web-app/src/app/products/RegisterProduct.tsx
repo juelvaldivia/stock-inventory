@@ -5,7 +5,6 @@ import React from 'react';
 import { RegisterProductState } from '@/core/products/RegisterProductState.ts';
 
 import ProductForm from '@/app/products/ProductForm.tsx';
-// import { useObserverState } from '@/app/common/StateObserverBuilder.ts';
 import { useRegisterProductHandler } from '@/app/App.tsx';
 import { useObserverState } from '@/app/common/StateObserverBuilder.tsx';
 
@@ -16,7 +15,15 @@ const RegisterProduct: React.FC = () => {
   const renderState = (state: RegisterProductState) => {
     switch (state.kind) {
       case 'BeforeRegisterProductState':
-        return state.open && <ProductForm></ProductForm>;
+        return (
+          state.open && (
+            <div className="container mx-auto px-4">
+              <div className="row flex flex-wrap justify-start">
+                <ProductForm></ProductForm>
+              </div>
+            </div>
+          )
+        );
       case 'RegisteringProductState':
         return <div className="container mx-auto px-4">Registering...</div>;
       case 'ErrorRegisteringProductState':
