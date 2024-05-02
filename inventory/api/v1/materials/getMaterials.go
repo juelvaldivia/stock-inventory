@@ -1,15 +1,15 @@
-package productsController
+package materialsController
 
 import (
 	"net/http"
 	"strconv"
 
 	"stock-inventory/api/responses"
-	"stock-inventory/app/products"
+	"stock-inventory/app/materials"
 	"stock-inventory/database/filters"
 )
 
-func (controller *ProductsController) GetProducts(
+func (controller *MaterialsController) GetMaterials(
 	response http.ResponseWriter,
 	request *http.Request,
 ) {
@@ -37,7 +37,7 @@ func (controller *ProductsController) GetProducts(
 		return
 	}
 
-	var dispersionFilters = filters.NewProductsFilters()
+	var dispersionFilters = filters.NewMaterialsFilters()
 	name := queryValues.Get("name")
 
 	if name != "" {
@@ -51,7 +51,7 @@ func (controller *ProductsController) GetProducts(
 
 	var database = controller.App.Database
 
-	result, err := products.FindAll(database, page, perPage, dispersionFilters)
+	result, err := materials.FindAll(database, page, perPage, dispersionFilters)
 
 	if err != nil {
 		responses.Json(response, http.StatusInternalServerError, err.Error())

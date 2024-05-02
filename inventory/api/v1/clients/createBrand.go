@@ -9,7 +9,10 @@ import (
 	"stock-inventory/app/entities"
 )
 
-func (controller *ClientsController) CreateClient(response http.ResponseWriter, request *http.Request) {
+func (controller *ClientsController) CreateClient(
+	response http.ResponseWriter,
+	request *http.Request,
+) {
 	var newClient entities.Client
 	var database = controller.App.Database
 

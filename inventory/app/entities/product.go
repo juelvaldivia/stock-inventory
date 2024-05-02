@@ -3,12 +3,16 @@ package entities
 import "github.com/google/uuid"
 
 type Product struct {
-	Id            uuid.UUID `json:"id"`
-	Name          string    `json:"name"`
-	Category      string    `json:"category"`
-	Price         float32   `json:"price"`
-	StockQuantity int       `json:"stockQuantity"`
-	BrandId       uuid.UUID `json:"brandId"`
+	Id            uuid.UUID  `json:"id"`
+	BrandId       uuid.UUID  `json:"brandId"`
+	Name          string     `json:"name"`
+	Category      string     `json:"category"`
+	Price         float32    `json:"price"`
+	Style         string     `json:"style"`
+	Size          string     `json:"size"`
+	StockQuantity int        `json:"stockQuantity"`
+	StockLimit    int        `json:"stockLimit"`
+	Materials     []Material `json:"materials"`
 }
 
 type ProductsList struct {

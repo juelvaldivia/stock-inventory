@@ -10,7 +10,10 @@ import (
 	"stock-inventory/app/clients"
 )
 
-func (controller *ClientsController) FindClientById(response http.ResponseWriter, request *http.Request) {
+func (controller *ClientsController) FindClientById(
+	response http.ResponseWriter,
+	request *http.Request,
+) {
 	var database = controller.App.Database
 
 	clientId := chi.URLParam(request, "id")

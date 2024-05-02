@@ -16,6 +16,8 @@ import (
 var ErrCreatingProduct = errors.New("error creating product")
 var ErrGettingProducts = errors.New("error getting products")
 var ErrFindingProduct = errors.New("error finding product")
+var ErrUpdatingProductInventory = errors.New("error updating product")
+var ErrAssignMaterial = errors.New("error assign material")
 
 type SqlConnection struct {
 	*sqlx.DB
@@ -27,7 +29,10 @@ func New(connection *sqlx.DB) *SqlConnection {
 	}
 }
 
-func (connection *SqlConnection) FindAll(pagination *utils.Pagination, filters *filters.ProductsFilters) (entities.ProductsList, error) {
+func (connection *SqlConnection) FindAll(
+	pagination *utils.Pagination,
+	filters *filters.ProductsFilters,
+) (entities.ProductsList, error) {
 	if pagination == nil {
 		pagination = utils.NewPagination(1, 25)
 	}
@@ -47,7 +52,8 @@ func (connection *SqlConnection) FindAll(pagination *utils.Pagination, filters *
 	}
 
 	query := `SELECT
-							id, name, category, price, stockquantity AS stockQuantity, brand_id as brandId
+							id, brand_id as brandId, name, category, price, style, size,
+							stock_quantity AS stockQuantity, stock_limit AS stockLimit
 						FROM products`
 
 	query, errApplyingFilters := applyFilters(query, filters)
@@ -59,6 +65,10 @@ func (connection *SqlConnection) FindAll(pagination *utils.Pagination, filters *
 
 	if err := connection.Select(&products, query); err != nil {
 		return entities.ProductsList{}, errors.Join(ErrGettingProducts, err)
+	}
+
+	if products == nil {
+		products = []entities.Product{}
 	}
 
 	productsList := entities.ProductsList{
@@ -78,14 +88,19 @@ func (connection *SqlConnection) Create(product entities.Product) (entities.Prod
 	err := connection.Get(
 		&newProduct,
 		`INSERT INTO products
-			(name, category, price, stockquantity, brand_id)
-		VALUES ($1, $2, $3, $4, $5)
-		RETURNING id, name, category, price, stockquantity AS stockQuantity, brand_id AS brandId`,
+			(brand_id, name, category, price, style, size, stock_quantity, stock_limit)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+		RETURNING
+			id, brand_id AS brandId, name, category, price, style, size,
+			stock_quantity AS stockQuantity, stock_limit AS stockLimit`,
+		product.BrandId,
 		product.Name,
 		product.Category,
 		product.Price,
+		product.Style,
+		product.Size,
 		product.StockQuantity,
-		product.BrandId,
+		product.StockLimit,
 	)
 
 	if err != nil {
@@ -103,7 +118,8 @@ func (connection *SqlConnection) Create(product entities.Product) (entities.Prod
 func (connection *SqlConnection) FindById(id uuid.UUID) (entities.Product, error) {
 	var product entities.Product
 	var query = `SELECT
-								 id, name, category, price, stockquantity AS stockQuantity, brand_id AS brandId
+								id, brand_id AS brandId, name, category, price, style, size,
+								stock_quantity AS stockQuantity, stock_limit AS stockLimit
 							 FROM products
 							 WHERE id = $1`
 
@@ -114,6 +130,41 @@ func (connection *SqlConnection) FindById(id uuid.UUID) (entities.Product, error
 	}
 
 	return product, nil
+}
+
+func (connection *SqlConnection) UpdateStockQuantity(
+	product entities.Product,
+	newQuantity int,
+) (entities.Product, error) {
+	var query = `UPDATE products SET stock_quantity = $1 WHERE id = $2`
+
+	_, err := connection.Exec(query, newQuantity, product.Id)
+	if err != nil {
+		return entities.Product{}, errors.Join(ErrUpdatingProductInventory, err)
+	}
+
+	return entities.Product{}, nil
+}
+
+func (connection *SqlConnection) AssignMaterial(
+	product entities.Product,
+	material entities.Material,
+	quantityUsed int,
+) error {
+	_, err := connection.Exec(
+		`INSERT INTO product_materials
+				(product_id, material_id, quantity_used)
+			VALUES ($1, $2, $3)`,
+		product.Id,
+		material.Id,
+		quantityUsed,
+	)
+
+	if err != nil {
+		return errors.Join(ErrAssignMaterial, err)
+	}
+
+	return nil
 }
 
 func applyPagination(query string, pagination *utils.Pagination) string {

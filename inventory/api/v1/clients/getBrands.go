@@ -7,7 +7,10 @@ import (
 	"stock-inventory/app/clients"
 )
 
-func (controller *ClientsController) GetClients(response http.ResponseWriter, request *http.Request) {
+func (controller *ClientsController) GetClients(
+	response http.ResponseWriter,
+	request *http.Request,
+) {
 	var database = controller.App.Database
 
 	result, err := clients.FindAll(database)

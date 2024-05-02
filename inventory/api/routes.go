@@ -18,6 +18,9 @@ func (api *API) RoutesApiV1() chi.Router {
 	productsRouter := routers.ProductsRouterNew(api.App)
 	router.Mount("/products", productsRouter.GetRoutes())
 
+	materialsRouter := routers.MaterialsRouterNew(api.App)
+	router.Mount("/materials", materialsRouter.GetRoutes())
+
 	usersRouter := routers.UsersRouterNew(api.App)
 	router.Mount("/users", usersRouter.GetRoutes())
 

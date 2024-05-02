@@ -25,6 +25,7 @@ func (productsRouter *ProductsRouter) GetRoutes() chi.Router {
 	router.Get("/", productsController.GetProducts)
 	router.Post("/", productsController.CreateProduct)
 	router.Get("/{id}", productsController.FindProductById)
+	router.Post("/{id}/produce", productsController.ProduceProduct)
 
 	return router
 }

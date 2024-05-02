@@ -35,9 +35,11 @@ func (connection *SqlConnection) FindAll() ([]entities.Brand, error) {
 }
 
 func (connection *SqlConnection) Create(brand entities.Brand) error {
+	newBrand := brand
+
 	if err := connection.Get(
-		brand,
-		`INSERT INTO brands (name, logo) VALUES ($1, $2) RETURNING *`,
+		&newBrand,
+		`INSERT INTO brands (name, logo) VALUES ($1, $2) RETURNING id, name, logo`,
 		brand.Name,
 		brand.Logo,
 	); err != nil {

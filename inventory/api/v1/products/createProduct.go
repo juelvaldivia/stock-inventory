@@ -9,7 +9,10 @@ import (
 	"stock-inventory/app/products"
 )
 
-func (controller *ProductsController) CreateProduct(response http.ResponseWriter, request *http.Request) {
+func (controller *ProductsController) CreateProduct(
+	response http.ResponseWriter,
+	request *http.Request,
+) {
 	var newProduct entities.Product
 	var database = controller.App.Database
 

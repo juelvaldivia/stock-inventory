@@ -10,7 +10,10 @@ import (
 	"stock-inventory/app/brands"
 )
 
-func (controller *BrandsController) FindBrandById(response http.ResponseWriter, request *http.Request) {
+func (controller *BrandsController) FindBrandById(
+	response http.ResponseWriter,
+	request *http.Request,
+) {
 	var database = controller.App.Database
 
 	brandId := chi.URLParam(request, "id")

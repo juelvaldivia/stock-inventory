@@ -1,32 +1,32 @@
-package brandsController
+package materialsController
 
 import (
 	"encoding/json"
 	"net/http"
 
 	"stock-inventory/api/responses"
-	"stock-inventory/app/brands"
 	"stock-inventory/app/entities"
+	"stock-inventory/app/materials"
 )
 
-func (controller *BrandsController) CreateBrand(
+func (controller *MaterialsController) CreateMaterial(
 	response http.ResponseWriter,
 	request *http.Request,
 ) {
-	var newBrand entities.Brand
+	var newMaterial entities.Material
 	var database = controller.App.Database
 
-	if err := json.NewDecoder(request.Body).Decode(&newBrand); err != nil {
+	if err := json.NewDecoder(request.Body).Decode(&newMaterial); err != nil {
 		http.Error(response, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	brand, err := brands.Create(database, newBrand)
+	material, err := materials.Create(database, newMaterial)
 
 	if err != nil {
 		http.Error(response, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	responses.Json(response, http.StatusCreated, brand)
+	responses.Json(response, http.StatusCreated, material)
 }

@@ -14,5 +14,13 @@ func FindById(database interfaces.Database, id uuid.UUID) (entities.Product, err
 		return entities.Product{}, err
 	}
 
+	materials, err := database.Materials().FindByProduct(product)
+
+	if err != nil {
+		return entities.Product{}, err
+	}
+
+	product.Materials = materials
+
 	return product, nil
 }

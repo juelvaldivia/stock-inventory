@@ -22,7 +22,10 @@ func New() *ProductStore {
 	}
 }
 
-func (store *ProductStore) FindAll(pagination *utils.Pagination, filters *filters.ProductsFilters) (entities.ProductsList, error) {
+func (store *ProductStore) FindAll(
+	pagination *utils.Pagination,
+	filters *filters.ProductsFilters,
+) (entities.ProductsList, error) {
 	products := make([]entities.Product, 0, len(store.Products))
 
 	for _, product := range store.Products {
@@ -56,4 +59,23 @@ func (store *ProductStore) FindById(id uuid.UUID) (entities.Product, error) {
 	}
 
 	return entities.Product{}, ErrProductNotFound
+}
+
+func (store *ProductStore) UpdateStockQuantity(
+	product entities.Product,
+	newQuantity int,
+) (entities.Product, error) {
+	// Implement updateStockQuantity
+
+	return entities.Product{}, ErrProductNotFound
+}
+
+func (store *ProductStore) AssignMaterial(
+	product entities.Product,
+	material entities.Material,
+	quantityUsed int,
+) error {
+	// Implement updateStockQuantity
+
+	return ErrProductNotFound
 }

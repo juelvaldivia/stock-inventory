@@ -11,7 +11,10 @@ import (
 	"stock-inventory/api/responses"
 )
 
-func (controller *UsersController) FindUserById(response http.ResponseWriter, request *http.Request) {
+func (controller *UsersController) FindUserById(
+	response http.ResponseWriter,
+	request *http.Request,
+) {
 	var database = controller.App.Database
 
 	userId := chi.URLParam(request, "id")

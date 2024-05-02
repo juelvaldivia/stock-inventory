@@ -10,10 +10,11 @@ import (
 )
 
 type MemoryDatabase struct {
-	brandsStore   interfaces.BrandsStore
-	clientsStore  interfaces.ClientsStore
-	productsStore interfaces.ProductsStore
-	usersStore    interfaces.UsersStore
+	brandsStore    interfaces.BrandsStore
+	clientsStore   interfaces.ClientsStore
+	productsStore  interfaces.ProductsStore
+	materialsStore interfaces.MaterialsStore
+	usersStore     interfaces.UsersStore
 }
 
 func New() *MemoryDatabase {
@@ -35,6 +36,10 @@ func (database *MemoryDatabase) Clients() interfaces.ClientsStore {
 
 func (database *MemoryDatabase) Products() interfaces.ProductsStore {
 	return database.productsStore
+}
+
+func (database *MemoryDatabase) Materials() interfaces.MaterialsStore {
+	return database.materialsStore
 }
 
 func (database *MemoryDatabase) Users() interfaces.UsersStore {
