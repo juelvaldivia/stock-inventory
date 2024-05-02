@@ -1,7 +1,8 @@
 'use client';
 
-import StateObserver from '@/core/common/StateObserver';
 import { useEffect, useState } from 'react';
+
+import StateObserver from '@/core/common/StateObserver.ts';
 
 export function useObserverState<S>(observer: StateObserver<S>) {
   const [state, setState] = useState(observer.state);

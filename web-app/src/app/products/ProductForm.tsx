@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
-import InputForm from '@/app/components/Input';
-import Dropdown from '@/app/components/Dropdown';
+
+import { Product } from '@/core/entities/Product';
+
+import InputForm from '@/app/components/Input.tsx';
+import Dropdown from '@/app/components/Dropdown.tsx';
+import { useRegisterProductHandler } from '@/app/common/ContextsHandlers.tsx';
 
 const brands = [
   {
@@ -10,6 +14,8 @@ const brands = [
 ];
 
 const ProductForm: React.FC = () => {
+  const registerHandler = useRegisterProductHandler();
+
   const [formData, setFormData] = useState({
     brandId: brands[0].id,
     name: '',
@@ -29,7 +35,16 @@ const ProductForm: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log('Form submitted:', formData);
+    const product: Product = {
+      id: '',
+      name: formData.name,
+      category: formData.category,
+      price: parseFloat(formData.price),
+      stockQuantity: parseInt(formData.stockQuantity),
+      brandId: formData.brandId
+    };
+
+    registerHandler.registerProduct(product);
   };
 
   return (
@@ -43,28 +58,34 @@ const ProductForm: React.FC = () => {
         ></Dropdown>
         <InputForm
           name="name"
+          type="text"
           value={formData.name}
           onChange={handleChange}
           placeholder="Nombre de producto"
         ></InputForm>
         <InputForm
           name="category"
+          type="text"
           value={formData.category}
           onChange={handleChange}
           placeholder="Categoría de producto"
         ></InputForm>
         <InputForm
           name="price"
+          type="number"
           value={formData.price}
           onChange={handleChange}
           placeholder="Precio de producto"
         ></InputForm>
         <InputForm
           name="stockQuantity"
+          type="number"
           value={formData.stockQuantity}
           onChange={handleChange}
           placeholder="Stock actual"
         ></InputForm>
+      </div>
+      <div className="w-full">
         <button
           type="submit"
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Product } from '@/core/entities/Product.ts';
 import Image from 'next/image';
+
+import { Product } from '@/core/entities/Product.ts';
 
 interface ProductListProps {
   product: Product;

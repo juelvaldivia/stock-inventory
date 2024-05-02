@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-import HttpErrorHandler from '@/core/http/httpErrorHandler';
+import HttpErrorHandler from '@/core/http/httpErrorHandler.ts';
 
 class HttpClient {
   private _headers = { 'Content-Type': 'application/json' };

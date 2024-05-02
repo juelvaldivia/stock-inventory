@@ -6,8 +6,16 @@ interface InputFormProps {
   placeholder?: string;
   onChange?: (value: any) => void;
   value?: any;
+  type?: string;
 }
-const InputForm: React.FC<InputFormProps> = ({ name, textLabel, placeholder, onChange, value }) => {
+const InputForm: React.FC<InputFormProps> = ({
+  name,
+  textLabel,
+  placeholder,
+  onChange,
+  value,
+  type
+}) => {
   return (
     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
       {textLabel && (
@@ -18,7 +26,7 @@ const InputForm: React.FC<InputFormProps> = ({ name, textLabel, placeholder, onC
 
       <input
         className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-        type="text"
+        type={type || 'text'}
         name={name}
         onChange={onChange}
         value={value}

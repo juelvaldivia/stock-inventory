@@ -1,29 +1,35 @@
-import { Product } from '@/core/entities/Product';
+import { Product } from '@/core/entities/Product.ts';
 
 export interface CommonProductState {
-    open: boolean
+  open: boolean;
 }
 
 export interface BeforeRegisterProductState {
-    kind: 'BeforeRegisterProductState'
+  kind: 'BeforeRegisterProductState';
 }
 
 export interface RegisteringProductState {
-    kind: 'RegisteringProductState'
+  kind: 'RegisteringProductState';
 }
 
 export interface RegisteredProductState {
-    kind: 'RegisteredProductState'
-    product: Product;
+  kind: 'RegisteredProductState';
+  product: Product;
 }
 export interface ErrorRegisteringProductState {
-    kind: 'ErrorRegisteringProductState'
-    error: string;
+  kind: 'ErrorRegisteringProductState';
+  error: string;
 }
 
-export type RegisterProductState = (BeforeRegisterProductState | RegisteringProductState | RegisteredProductState | ErrorRegisteringProductState) & CommonProductState
+export type RegisterProductState = (
+  | BeforeRegisterProductState
+  | RegisteringProductState
+  | RegisteredProductState
+  | ErrorRegisteringProductState
+) &
+  CommonProductState;
 
 export const registerProductInitialState: RegisterProductState = {
-    kind: 'BeforeRegisterProductState',
-    open: false
-}
+  kind: 'BeforeRegisterProductState',
+  open: false
+};

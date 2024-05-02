@@ -1,5 +1,6 @@
-import { Product } from '@/core/entities/Product';
+import { Product } from '@/core/entities/Product.ts';
 
 export default interface ProductRepository {
-    get(filter: string):Promise<Product[]> ;
+  get(filter: string): Promise<Product[]>;
+  register(product: Product): Promise<Product>;
 }

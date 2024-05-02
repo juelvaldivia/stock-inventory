@@ -2,10 +2,11 @@
 
 import React, { useEffect } from 'react';
 
-import ProductItem from './ProductItem';
-import { useObserverState } from '../common/StateObserverBuilder';
-import { ProductsState } from '@/core/products/ProductsState';
-import { useProductsHandler } from '../App';
+import { ProductsState } from '@/core/products/ProductsState.ts';
+
+import ProductItem from '@/app/products/ProductItem.tsx';
+import { useObserverState } from '@/app/common/StateObserverBuilder.tsx';
+import { useProductsHandler } from '@/app/common/ContextsHandlers.tsx';
 
 const assignColor = (productNumber: number) => {
   const colors = ['blue', 'orange', 'red', 'green', 'yellow', 'pink'];

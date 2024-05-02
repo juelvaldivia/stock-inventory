@@ -1,7 +1,7 @@
-import ProductsAPIRepository from "@/core/api/products/ProductsAPIRepository.ts";
+import ProductsAPIRepository from '@/core/api/products/ProductsAPIRepository.ts';
 
 export interface API {
-  products(): ProductsAPIRepository
+  products(): ProductsAPIRepository;
 }
 
 export default class Api implements API {

@@ -1,11 +1,10 @@
 'use client';
 
-import ProductList from '@/app/products/ProductList';
-import SearchBar from '@/app/components/SearchBar';
-
-import { useProductsHandler, useRegisterProductHandler } from '@/app/App.tsx';
-import RegisterProduct from './RegisterProduct';
-import { useObserverState } from '../common/StateObserverBuilder';
+import ProductList from '@/app/products/ProductList.tsx';
+import RegisterProduct from '@/app/products/RegisterProduct.tsx';
+import SearchBar from '@/app/components/SearchBar.tsx';
+import { useObserverState } from '@/app/common/StateObserverBuilder.tsx';
+import { useProductsHandler, useRegisterProductHandler } from '@/app/common/ContextsHandlers.tsx';
 
 const ProductsPage: React.FC = () => {
   const registerProductHandler = useRegisterProductHandler();

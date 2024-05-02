@@ -5,8 +5,8 @@ import React from 'react';
 import { RegisterProductState } from '@/core/products/RegisterProductState.ts';
 
 import ProductForm from '@/app/products/ProductForm.tsx';
-import { useRegisterProductHandler } from '@/app/App.tsx';
 import { useObserverState } from '@/app/common/StateObserverBuilder.tsx';
+import { useRegisterProductHandler } from '@/app/common/ContextsHandlers.tsx';
 
 const RegisterProduct: React.FC = () => {
   const registerHandler = useRegisterProductHandler();
@@ -25,11 +25,17 @@ const RegisterProduct: React.FC = () => {
           )
         );
       case 'RegisteringProductState':
-        return <div className="container mx-auto px-4">Registering...</div>;
+        return <div className="container mx-auto px-4">Registrando...</div>;
       case 'ErrorRegisteringProductState':
-        return <div className="container mx-auto px-4">Error registering</div>;
+        return (
+          <div className="container mx-auto px-4">Error registrando el producto {state.error}</div>
+        );
       case 'RegisteredProductState':
-        return <div className="container mx-auto px-4">Registered successfully</div>;
+        return (
+          <div className="container mx-auto px-4">
+            Producto {state.product.name} registrado correctamente
+          </div>
+        );
     }
   };
 
