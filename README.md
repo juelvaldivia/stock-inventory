@@ -19,3 +19,7 @@ _(Run `make help` inside the docker-compose folder to see all the commands avail
 In your web browser, go to http://localhost:3000 so you can access to the web application.
 
 ### Now you are ready to run the application in your local environment.
+
+## Screenshots
+
+![Products](https://github.com/juelvaldivia/stock-inventory/blob/master/screenshots/products.jpg)
