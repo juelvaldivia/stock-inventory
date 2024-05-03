@@ -21,14 +21,14 @@ func (controller *ClientsController) FindClientById(
 	id, err := uuid.Parse(clientId)
 
 	if err != nil {
-		http.Error(response, err.Error(), http.StatusBadRequest)
+		responses.Json(response, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	client, err := clients.FindById(database, id)
 
 	if err != nil {
-		http.Error(response, err.Error(), http.StatusInternalServerError)
+		responses.Json(response, http.StatusInternalServerError, err.Error())
 		return
 	}
 

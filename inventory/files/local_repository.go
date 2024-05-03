@@ -3,6 +3,7 @@ package fileRepository
 import (
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"regexp"
@@ -37,7 +38,7 @@ func NewLocalRepository(path string) (*LocalRepository, error) {
 	return &LocalRepository{FileRepository: NewFileRepository("file"), path: path}, nil
 }
 
-func (localRepository *LocalRepository) Store(file *os.File, filename string) (string, error) {
+func (localRepository *LocalRepository) Store(file *os.File, filename string, contentType string) (string, error) {
 	if file == nil {
 		return "", &ObjectToStoreIsNotAFile{FileRepositoryError{"file is nil"}}
 	}
@@ -51,7 +52,7 @@ func (localRepository *LocalRepository) Store(file *os.File, filename string) (s
 		return "", &FileAlreadyExists{LocalRepositoryError{"file already exists"}}
 	}
 
-	if err := localRepository.writeFile(file, path); err != nil {
+	if err := localRepository.writeFile(file, path, contentType); err != nil {
 		return "", err
 	}
 
@@ -75,7 +76,9 @@ func (localRepository *LocalRepository) URLFromURI(baseURL string, uri string) (
 		return "", &UnsupportedScheme{FileRepositoryError{"unsupported scheme"}}
 	}
 
-	return localRepository.buildURLFromPath(baseURL, uri), nil
+	path := localRepository.buildPathFromURI(uri)
+
+	return localRepository.buildURLFromPath(baseURL, path), nil
 }
 
 func (localRepository *LocalRepository) buildFileURI(filename string) string {
@@ -91,15 +94,25 @@ func (localRepository *LocalRepository) buildPathFromURI(uri string) string {
 	return parts[1]
 }
 
-func (lr *LocalRepository) writeFile(file *os.File, path string) error {
-	data, err := ioutil.ReadAll(file)
+func (lr *LocalRepository) writeFile(file *os.File, path string, contentType string) error {
+	_, err := file.Seek(0, 0)
 	if err != nil {
 		return err
 	}
 
-	err = ioutil.WriteFile(path, data, 0644)
+	outFile, err := os.Create(path)
 	if err != nil {
 		return &UnableToStoreFile{LocalRepositoryError{err.Error()}}
+	}
+	defer outFile.Close()
+
+	_, err = io.Copy(outFile, file)
+	if err != nil {
+		return &UnableToStoreFile{LocalRepositoryError{err.Error()}}
+	}
+
+	if err := os.Setenv("CONTENT_TYPE", contentType); err != nil {
+		return err
 	}
 
 	return nil

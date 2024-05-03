@@ -17,14 +17,14 @@ func (controller *MaterialsController) CreateMaterial(
 	var database = controller.App.Database
 
 	if err := json.NewDecoder(request.Body).Decode(&newMaterial); err != nil {
-		http.Error(response, err.Error(), http.StatusBadRequest)
+		responses.Json(response, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	material, err := materials.Create(database, newMaterial)
 
 	if err != nil {
-		http.Error(response, err.Error(), http.StatusInternalServerError)
+		responses.Json(response, http.StatusInternalServerError, err.Error())
 		return
 	}
 

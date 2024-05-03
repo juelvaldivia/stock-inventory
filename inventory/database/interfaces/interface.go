@@ -26,6 +26,7 @@ type ProductsStore interface {
 	FindById(id uuid.UUID) (entities.Product, error)
 	UpdateStockQuantity(product entities.Product, quantity int) (entities.Product, error)
 	AssignMaterial(product entities.Product, material entities.Material, quantityUsed int) error
+	UpdateImage(product entities.Product, imageUri string) error
 }
 
 type MaterialsStore interface {

@@ -7,7 +7,7 @@ import (
 	"stock-inventory/app"
 	"stock-inventory/config"
 	"stock-inventory/database"
-	"stock-inventory/files"
+	fileRepository "stock-inventory/files"
 	"stock-inventory/server"
 )
 
@@ -36,7 +36,7 @@ func main() {
 		return
 	}
 
-	repository, err := fileRepository.NewLocalRepository("/inventory/")
+	repository, err := fileRepository.NewLocalRepository("tmp/files")
 	if err != nil {
 		fmt.Println("Error building local file repository:", err)
 		return

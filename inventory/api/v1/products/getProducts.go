@@ -37,21 +37,22 @@ func (controller *ProductsController) GetProducts(
 		return
 	}
 
-	var dispersionFilters = filters.NewProductsFilters()
+	var productsFilters = filters.NewProductsFilters()
 	name := queryValues.Get("name")
 
 	if name != "" {
-		dispersionFilters.ByName(name)
+		productsFilters.ByName(name)
 	}
 	category := queryValues.Get("category")
 
 	if category != "" {
-		dispersionFilters.ByCategory(category)
+		productsFilters.ByCategory(category)
 	}
 
 	var database = controller.App.Database
+	var fileRepository = controller.App.FileRepository
 
-	result, err := products.FindAll(database, page, perPage, dispersionFilters)
+	result, err := products.FindAll(database, fileRepository, page, perPage, productsFilters)
 
 	if err != nil {
 		responses.Json(response, http.StatusInternalServerError, err.Error())

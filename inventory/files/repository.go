@@ -14,9 +14,7 @@ func NewFileRepository(scheme string) *FileRepository {
 }
 
 func (fileRepository *FileRepository) buildURLFromPath(baseURL, path string) string {
-	pathWithoutExtension := strings.Split(path, ".")[0]
-
-	return fmt.Sprintf("%s%s", baseURL, pathWithoutExtension)
+	return fmt.Sprintf("%s/%s", baseURL, path)
 }
 
 func (fileRepository *FileRepository) uriScheme(uri string) string {

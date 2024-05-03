@@ -22,14 +22,14 @@ func (controller *UsersController) FindUserById(
 	id, err := uuid.Parse(userId)
 
 	if err != nil {
-		http.Error(response, err.Error(), http.StatusBadRequest)
+		responses.Json(response, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	user, err := users.FindUserById(database, id)
 
 	if err != nil {
-		http.Error(response, err.Error(), http.StatusInternalServerError)
+		responses.Json(response, http.StatusInternalServerError, err.Error())
 		return
 	}
 

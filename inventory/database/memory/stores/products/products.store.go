@@ -79,3 +79,9 @@ func (store *ProductStore) AssignMaterial(
 
 	return ErrProductNotFound
 }
+
+func (store *ProductStore) UpdateImage(product entities.Product, imageUri string) error {
+	// Implement updateStockQuantity
+
+	return ErrProductNotFound
+}

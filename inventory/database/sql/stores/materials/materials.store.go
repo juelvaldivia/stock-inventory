@@ -40,7 +40,7 @@ func (connection *SqlConnection) FindAll(
 	var materials []entities.Material
 	var totalItems int
 
-	queryCount := fmt.Sprintf("SELECT COUNT(*) FROM materials")
+	queryCount := `SELECT COUNT(*) FROM materials`
 	queryCount, errApplyingCountFilters := applyFilters(queryCount, filters)
 	if errApplyingCountFilters != nil {
 		return entities.MaterialsList{}, errApplyingCountFilters
@@ -53,7 +53,7 @@ func (connection *SqlConnection) FindAll(
 
 	query := `SELECT
 							id, name, description, quantity_available AS quantityAvailable,
-							quantity_limit AS quantityLimit
+							quantity_limit AS quantityLimit, image_uri AS imageUri
 						FROM materials`
 
 	query, errApplyingFilters := applyFilters(query, filters)
@@ -88,8 +88,8 @@ func (connection *SqlConnection) Create(material entities.Material) (entities.Ma
 	err := connection.Get(
 		&newMaterial,
 		`INSERT INTO materials
-			(name, description, quantity_available, quantity_limit)
-		VALUES ($1, $2, $3, $4)
+			(name, description, quantity_available, quantity_limit, image_uri)
+		VALUES ($1, $2, $3, $4, $5)
 		RETURNING
 			id, name, description, quantity_available AS quantityAvailable,
 			quantity_limit AS quantityLimit`,
@@ -97,6 +97,7 @@ func (connection *SqlConnection) Create(material entities.Material) (entities.Ma
 		material.Description,
 		material.QuantityAvailable,
 		material.QuantityLimit,
+		material.ImageUri,
 	)
 
 	if err != nil {
@@ -115,7 +116,7 @@ func (connection *SqlConnection) FindById(id uuid.UUID) (entities.Material, erro
 	var material entities.Material
 	var query = `SELECT
 								id, name, description, quantity_available AS quantityAvailable,
-								quantity_limit AS quantityLimit
+								quantity_limit AS quantityLimit, image_uri AS imageUri
 							 FROM materials
 							 WHERE id = $1`
 
@@ -133,7 +134,8 @@ func (connection *SqlConnection) FindByProduct(
 ) ([]entities.Material, error) {
 	var materials []entities.Material
 	var query = `SELECT m.id, m.name, m.description, m.quantity_available AS quantityAvailable,
-								 m.quantity_limit AS quantityLimit, pm.quantity_used AS quantityUsed
+								 m.quantity_limit AS quantityLimit, pm.quantity_used AS quantityUsed,
+								 m.image_uri AS imageUri
 							 FROM materials m
 							 INNER JOIN product_materials pm ON m.id = pm.material_id
 							 WHERE pm.product_id = $1`

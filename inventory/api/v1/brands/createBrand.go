@@ -17,14 +17,14 @@ func (controller *BrandsController) CreateBrand(
 	var database = controller.App.Database
 
 	if err := json.NewDecoder(request.Body).Decode(&newBrand); err != nil {
-		http.Error(response, err.Error(), http.StatusBadRequest)
+		responses.Json(response, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	brand, err := brands.Create(database, newBrand)
 
 	if err != nil {
-		http.Error(response, err.Error(), http.StatusInternalServerError)
+		responses.Json(response, http.StatusInternalServerError, err.Error())
 		return
 	}
 

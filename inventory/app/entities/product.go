@@ -12,6 +12,8 @@ type Product struct {
 	Size          string     `json:"size"`
 	StockQuantity int        `json:"stockQuantity"`
 	StockLimit    int        `json:"stockLimit"`
+	ImageUri      string     `json:"_"`
+	ImageUrl      string     `json:"imageUrl"`
 	Materials     []Material `json:"materials"`
 }
 

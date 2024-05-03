@@ -20,7 +20,7 @@ func (controller *ProductsController) ProduceProduct(
 	id, err := uuid.Parse(productId)
 
 	if err != nil {
-		http.Error(response, err.Error(), http.StatusBadRequest)
+		responses.Json(response, http.StatusBadRequest, err.Error())
 		return
 	}
 
@@ -32,7 +32,7 @@ func (controller *ProductsController) ProduceProduct(
 	product, err = products.Produce(database, product)
 
 	if err != nil {
-		http.Error(response, err.Error(), http.StatusInternalServerError)
+		responses.Json(response, http.StatusInternalServerError, err.Error())
 		return
 	}
 

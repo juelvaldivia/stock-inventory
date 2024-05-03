@@ -1,6 +1,8 @@
 package api
 
 import (
+	"net/http"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/rs/cors"
@@ -34,6 +36,9 @@ func New(app *app.App) *API {
 	}
 
 	router.Use(cors.Handler)
+
+	tmpFilesDir := http.Dir("tmp/files")
+	router.Handle("/tmp/files/*", http.StripPrefix("/tmp/files/", http.FileServer(tmpFilesDir)))
 
 	router.Get("/", api.Welcome)
 	router.Get("/health", api.HealthCheck)

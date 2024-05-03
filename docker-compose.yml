@@ -2,6 +2,7 @@ version: '3'
 
 volumes:
   database-data:
+  inventory-data:
 
 services:
   database:
@@ -38,6 +39,7 @@ services:
       CONFIG_FILE_PATH: /var/lib/scripts/config.yml
     volumes:
       - ./inventory:/var/lib/app
+      - inventory-data:/tmp
     working_dir: /var/lib/app
     ports:
       - "4321:4321"

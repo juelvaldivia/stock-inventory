@@ -17,14 +17,14 @@ func (controller *ClientsController) CreateClient(
 	var database = controller.App.Database
 
 	if err := json.NewDecoder(request.Body).Decode(&newClient); err != nil {
-		http.Error(response, err.Error(), http.StatusBadRequest)
+		responses.Json(response, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	client, err := clients.Create(database, newClient)
 
 	if err != nil {
-		http.Error(response, err.Error(), http.StatusInternalServerError)
+		responses.Json(response, http.StatusInternalServerError, err.Error())
 		return
 	}
 

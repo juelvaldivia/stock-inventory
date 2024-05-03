@@ -17,14 +17,14 @@ func (controller *ProductsController) CreateProduct(
 	var database = controller.App.Database
 
 	if err := json.NewDecoder(request.Body).Decode(&newProduct); err != nil {
-		http.Error(response, err.Error(), http.StatusBadRequest)
+		responses.Json(response, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	product, err := products.Create(database, newProduct)
 
 	if err != nil {
-		http.Error(response, err.Error(), http.StatusInternalServerError)
+		responses.Json(response, http.StatusInternalServerError, err.Error())
 		return
 	}
 

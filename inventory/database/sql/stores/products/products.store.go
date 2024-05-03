@@ -18,6 +18,7 @@ var ErrGettingProducts = errors.New("error getting products")
 var ErrFindingProduct = errors.New("error finding product")
 var ErrUpdatingProductInventory = errors.New("error updating product")
 var ErrAssignMaterial = errors.New("error assign material")
+var ErrUpdatingProductImage = errors.New("error updating product image")
 
 type SqlConnection struct {
 	*sqlx.DB
@@ -40,7 +41,7 @@ func (connection *SqlConnection) FindAll(
 	var products []entities.Product
 	var totalItems int
 
-	queryCount := fmt.Sprintf("SELECT COUNT(*) FROM products")
+	queryCount := `SELECT COUNT(*) FROM products`
 	queryCount, errApplyingCountFilters := applyFilters(queryCount, filters)
 	if errApplyingCountFilters != nil {
 		return entities.ProductsList{}, errApplyingCountFilters
@@ -53,7 +54,7 @@ func (connection *SqlConnection) FindAll(
 
 	query := `SELECT
 							id, brand_id as brandId, name, category, price, style, size,
-							stock_quantity AS stockQuantity, stock_limit AS stockLimit
+							stock_quantity AS stockQuantity, stock_limit AS stockLimit, image_uri AS imageUri
 						FROM products`
 
 	query, errApplyingFilters := applyFilters(query, filters)
@@ -88,8 +89,8 @@ func (connection *SqlConnection) Create(product entities.Product) (entities.Prod
 	err := connection.Get(
 		&newProduct,
 		`INSERT INTO products
-			(brand_id, name, category, price, style, size, stock_quantity, stock_limit)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+			(brand_id, name, category, price, style, size, stock_quantity, stock_limit, image_uri)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 		RETURNING
 			id, brand_id AS brandId, name, category, price, style, size,
 			stock_quantity AS stockQuantity, stock_limit AS stockLimit`,
@@ -101,6 +102,7 @@ func (connection *SqlConnection) Create(product entities.Product) (entities.Prod
 		product.Size,
 		product.StockQuantity,
 		product.StockLimit,
+		product.ImageUri,
 	)
 
 	if err != nil {
@@ -119,7 +121,7 @@ func (connection *SqlConnection) FindById(id uuid.UUID) (entities.Product, error
 	var product entities.Product
 	var query = `SELECT
 								id, brand_id AS brandId, name, category, price, style, size,
-								stock_quantity AS stockQuantity, stock_limit AS stockLimit
+								stock_quantity AS stockQuantity, stock_limit AS stockLimit, image_uri AS imageUri
 							 FROM products
 							 WHERE id = $1`
 
@@ -162,6 +164,17 @@ func (connection *SqlConnection) AssignMaterial(
 
 	if err != nil {
 		return errors.Join(ErrAssignMaterial, err)
+	}
+
+	return nil
+}
+
+func (connection *SqlConnection) UpdateImage(product entities.Product, imageUri string) error {
+	var query = `UPDATE products SET image_uri = $1 WHERE id = $2`
+
+	_, err := connection.Exec(query, imageUri, product.Id)
+	if err != nil {
+		return errors.Join(ErrUpdatingProductImage, err)
 	}
 
 	return nil

@@ -1,0 +1,5 @@
+ALTER TABLE products
+ADD COLUMN image_uri VARCHAR(255);
+
+ALTER TABLE materials
+ADD COLUMN image_uri VARCHAR(255);

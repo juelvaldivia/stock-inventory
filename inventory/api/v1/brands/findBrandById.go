@@ -21,14 +21,14 @@ func (controller *BrandsController) FindBrandById(
 	id, err := uuid.Parse(brandId)
 
 	if err != nil {
-		http.Error(response, err.Error(), http.StatusBadRequest)
+		responses.Json(response, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	brand, err := brands.FindById(database, id)
 
 	if err != nil {
-		http.Error(response, err.Error(), http.StatusInternalServerError)
+		responses.Json(response, http.StatusInternalServerError, err.Error())
 		return
 	}
 
