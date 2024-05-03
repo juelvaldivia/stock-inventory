@@ -1,55 +1,35 @@
 'use client';
 
-import ProductList from '@/app/products/ProductList.tsx';
-import RegisterProduct from '@/app/products/RegisterProduct.tsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
+import ProductList from '@/app/products/components/ProductList';
 import SearchBar from '@/app/components/SearchBar.tsx';
-import { useObserverState } from '@/app/common/StateObserverBuilder.tsx';
-import { useProductsHandler, useRegisterProductHandler } from '@/app/common/ContextsHandlers.tsx';
+import { useProductsHandler } from '@/app/common/ContextsHandlers.tsx';
 
 const ProductsPage: React.FC = () => {
-  const registerProductHandler = useRegisterProductHandler();
   const productsHandler = useProductsHandler();
-  const stateRegisterProduct = useObserverState(registerProductHandler);
 
   const onSearchProducts = (name: string) => {
     productsHandler.search(name);
   };
 
-  const onProductsForm = () => {
-    if (!stateRegisterProduct.open) {
-      registerProductHandler.openRegisterProduct();
-    }
-
-    if (stateRegisterProduct.open) {
-      registerProductHandler.closeRegisterProduct();
-    }
-  };
-
   return (
-    <div className="container">
-      <div className="x-auto px-4 flex justify-start">
-        {!stateRegisterProduct.open && (
-          <button
-            onClick={onProductsForm}
-            className="bg-[#92dce5] hover:bg-[#70c1b3] text-[#2f2f2f] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    <div className="container pl-14">
+      <div className="flex flex-col px-10 md:flex-row md:items-center md:justify-between">
+        <div className=" md:ml-14 mb-4 md:mb-0">
+          <a
+            href="/products/register"
+            className="text-gray-500 hover:text-gray-700 flex items-center"
           >
-            Registrar nuevo producto
-          </button>
-        )}
-        {stateRegisterProduct.open && (
-          <button
-            onClick={onProductsForm}
-            className="bg-[#92dce5] hover:bg-[#70c1b3] text-[#2f2f2f] font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Cerrar registro
-          </button>
-        )}
-      </div>
-      <div className="mx-auto px-4 flex justify-end">
-        <SearchBar onSearch={onSearchProducts} placeholder="Buscar por nombre..." />
+            <FontAwesomeIcon icon={faPlus} className="mr-2" /> Registrar Producto
+          </a>
+        </div>
+        <div className="flex items-center md:ml-auto">
+          <SearchBar onSearch={onSearchProducts} placeholder="Buscar por nombre..." />
+        </div>
       </div>
 
-      <RegisterProduct />
       <ProductList></ProductList>
     </div>
   );

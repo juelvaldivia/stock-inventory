@@ -18,7 +18,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, placeholder }) => {
       <input
         id="search-box"
         type="text"
-        className="search-box"
+        className="search-box placeholder-center"
         onChange={handleChange}
         placeholder={placeholder ?? ''}
       />

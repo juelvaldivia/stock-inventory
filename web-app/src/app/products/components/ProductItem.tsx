@@ -10,8 +10,8 @@ interface ProductListProps {
 
 const ProductItem: React.FC<ProductListProps> = ({ product, color }) => {
   return (
-    <div className={`product--${color}`}>
-      <div className="product_inner">
+    <div className={`item--${color}`}>
+      <div className="item_inner">
         <Image
           src="http://wellandgood.com/wp-content/uploads/2012/07/Nike-Free-30-Womens-Running-Shoe-511495_600_A.png"
           alt="Nike Air (Women)"

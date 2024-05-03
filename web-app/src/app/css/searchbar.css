@@ -7,6 +7,9 @@
   cursor: pointer;
   background: #ebebeb;
 }
+.search-box::placeholder {
+  font-size: 12px;
+}
 .search-box + label .search-icon {
   color: black;
 }
@@ -23,7 +26,7 @@
   border: none;
   outline: none;
   box-shadow: none;
-  /* padding-left: 15px; */
+  padding-left: 15px;
   cursor: text;
   width: 300px;
   border-radius: auto;
@@ -45,4 +48,19 @@
   left: -30px;
   color: white;
   cursor: pointer;
+}
+@media (max-width: 640px) {
+  .search-box:focus {
+    transition: width 0.3s ease-in-out, border-radius 0.3s ease-in-out, background 0.3s ease-in-out;
+    width: 180px;
+  }
+  .search-box,
+  .search-box[tabindex="0"] {
+    width: 180px;
+    cursor: text;
+    outline: none;
+  }
+  .search-box[tabindex="0"]:placeholder {
+    font-size: 12px;
+  }
 }

@@ -21,27 +21,32 @@ const ProductForm: React.FC = () => {
     name: '',
     category: '',
     price: '',
-    stockQuantity: '0'
+    style: '',
+    size: '',
+    stockQuantity: '',
+    stockLimit: '',
+    materials: []
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
-    });
+
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const product: Product = {
-      id: '',
+      brandId: formData.brandId,
       name: formData.name,
       category: formData.category,
       price: parseFloat(formData.price),
+      style: formData.style,
+      size: formData.size,
       stockQuantity: parseInt(formData.stockQuantity),
-      brandId: formData.brandId
+      stockLimit: parseInt(formData.stockLimit),
+      materials: formData.materials
     };
 
     registerHandler.registerProduct(product);
@@ -71,6 +76,20 @@ const ProductForm: React.FC = () => {
           placeholder="Categoría de producto"
         ></InputForm>
         <InputForm
+          name="size"
+          type="text"
+          value={formData.size}
+          onChange={handleChange}
+          placeholder="Tamaño de producto"
+        ></InputForm>
+        <InputForm
+          name="style"
+          type="text"
+          value={formData.style}
+          onChange={handleChange}
+          placeholder="Estilo de producto"
+        ></InputForm>
+        <InputForm
           name="price"
           type="number"
           value={formData.price}
@@ -83,6 +102,13 @@ const ProductForm: React.FC = () => {
           value={formData.stockQuantity}
           onChange={handleChange}
           placeholder="Stock actual"
+        ></InputForm>
+        <InputForm
+          name="stockLimit"
+          type="number"
+          value={formData.stockLimit}
+          onChange={handleChange}
+          placeholder="Límite de stock"
         ></InputForm>
       </div>
       <div className="w-full">

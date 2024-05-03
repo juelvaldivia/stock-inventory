@@ -1,7 +1,6 @@
 package products
 
 import (
-	"fmt"
 	"stock-inventory/app/entities"
 	"stock-inventory/database/interfaces"
 )
@@ -24,8 +23,6 @@ func Produce(database interfaces.Database, product entities.Product) (entities.P
 		}
 
 		newQuantityAvailable := materialFound.QuantityAvailable - material.QuantityUsed
-
-		fmt.Println(newQuantityAvailable)
 
 		_, errUpdateMaterialQuantity := database.Materials().UpdateQuantityAvailable(
 			materialFound,

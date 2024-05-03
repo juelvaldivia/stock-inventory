@@ -1,10 +1,12 @@
 import type { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 
-const ProductsView = dynamic(() => import('@/app/products/ProductsView.tsx'), { ssr: false });
+const RegisterView = dynamic(() => import('@/app/products/register/RegisterView.tsx'), {
+  ssr: false
+});
 
 const Index: NextPage = () => {
-  return <ProductsView />;
+  return <RegisterView />;
 };
 
 export default Index;

@@ -3,6 +3,8 @@ import GetProducts from '@/core/products/GetProducts.ts';
 import ProductsHandler from '@/core/products/ProductsHandler.ts';
 import RegisterProduct from '@/core/products/RegisterProduct';
 import RegisterProductHandler from '@/core/products/RegisterProductHandler.ts';
+import MaterialsHandler from './materials/MaterialsHandler';
+import GetMaterials from './materials/GetMaterials';
 
 export function productsStateHandler(): ProductsHandler {
   const api = new Api();
@@ -20,7 +22,16 @@ export function registerProductStateHandler(): RegisterProductHandler {
   return registerProductHandler;
 }
 
+export function materialsStateHandler(): MaterialsHandler {
+  const api = new Api();
+  const getMaterials = new GetMaterials(api);
+  const materialsHandler = new MaterialsHandler(getMaterials);
+
+  return materialsHandler;
+}
+
 export const AppHandlers = {
   productsStateHandler,
-  registerProductStateHandler
+  registerProductStateHandler,
+  materialsStateHandler
 };

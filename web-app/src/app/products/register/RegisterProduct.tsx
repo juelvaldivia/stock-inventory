@@ -4,7 +4,8 @@ import React from 'react';
 
 import { RegisterProductState } from '@/core/products/RegisterProductState.ts';
 
-import ProductForm from '@/app/products/ProductForm.tsx';
+import Loader from '@/app/components/Loader.tsx';
+import ProductForm from '@/app/products/components/ProductForm';
 import { useObserverState } from '@/app/common/StateObserverBuilder.tsx';
 import { useRegisterProductHandler } from '@/app/common/ContextsHandlers.tsx';
 
@@ -16,16 +17,14 @@ const RegisterProduct: React.FC = () => {
     switch (state.kind) {
       case 'BeforeRegisterProductState':
         return (
-          state.open && (
-            <div className="container mx-auto px-4">
-              <div className="row flex flex-wrap justify-start">
-                <ProductForm></ProductForm>
-              </div>
+          <div className="container mx-auto pl-16">
+            <div className="row flex flex-wrap justify-center">
+              <ProductForm></ProductForm>
             </div>
-          )
+          </div>
         );
       case 'RegisteringProductState':
-        return <div className="container mx-auto px-4">Registrando...</div>;
+        return <Loader />;
       case 'ErrorRegisteringProductState':
         return (
           <div className="container mx-auto px-4">Error registrando el producto {state.error}</div>
