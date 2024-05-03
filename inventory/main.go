@@ -7,6 +7,7 @@ import (
 	"stock-inventory/app"
 	"stock-inventory/config"
 	"stock-inventory/database"
+	"stock-inventory/files"
 	"stock-inventory/server"
 )
 
@@ -35,7 +36,13 @@ func main() {
 		return
 	}
 
-	stockInventoryApp := app.New(configuration, database)
+	repository, err := fileRepository.NewLocalRepository("/inventory/")
+	if err != nil {
+		fmt.Println("Error building local file repository:", err)
+		return
+	}
+
+	stockInventoryApp := app.New(configuration, database, repository)
 	apiInstance := api.New(stockInventoryApp)
 	server := server.NewServerHTTP(configuration.ApiPort, apiInstance.Router)
 

@@ -6,6 +6,7 @@ import (
 	"stock-inventory/app/entities"
 	"stock-inventory/config"
 	"stock-inventory/database"
+	"stock-inventory/files"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -28,7 +29,10 @@ func CreateAPI(t *testing.T) *api.API {
 	database, err := databaseFactory.BuildDatabase()
 	assert.NoError(t, err, "Error building database")
 
-	app := app.New(testConfig, database)
+	repository, err := fileRepository.NewLocalRepository("/inventory/")
+	assert.NoError(t, err, "Error building repository")
+
+	app := app.New(testConfig, database, repository)
 
 	return api.New(app)
 }
