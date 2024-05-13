@@ -15,7 +15,7 @@ interface DropdownProps {
 
 const Dropdown: React.FC<DropdownProps> = ({ name, textLabel, options, onChange, value }) => {
   return (
-    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+    <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
       {textLabel && (
         <label
           className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"

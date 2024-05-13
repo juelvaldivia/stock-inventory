@@ -12,12 +12,7 @@ const ProductItem: React.FC<ProductListProps> = ({ product, color }) => {
   return (
     <div className={`item--${color}`}>
       <div className="item_inner">
-        <Image
-          src="http://wellandgood.com/wp-content/uploads/2012/07/Nike-Free-30-Womens-Running-Shoe-511495_600_A.png"
-          alt="Nike Air (Women)"
-          width={600}
-          height={600}
-        />
+        <Image src={product.imageUrl} alt="Nike Air (Women)" width={600} height={600} />
         <p>{product.name}</p>
         <p>Stock: {product.stockQuantity}</p>
         <p>Categoría: {product.category}</p>

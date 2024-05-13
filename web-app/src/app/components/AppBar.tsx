@@ -66,18 +66,15 @@ const AppBar: React.FC<AppBarProps> = ({ name, options }) => {
                 {option?.subOptions && (
                   <ul>
                     {option.subOptions.map((subOption, subKey) => (
-                      <>
-                        <li
-                          key={`sub-option-key-${subKey}`}
-                          className="cursor-pointer py-2 hover:bg-gray-700"
-                        >
+                      <div key={`sub-option-key-${subKey}`}>
+                        <li className="cursor-pointer py-2 hover:bg-gray-700">
                           <a href={subOption.url} className="flex items-center px-4">
                             <span className="">{assignIcon(subOption.icon)}</span>
                             <span className="ml-2">{subOption.name}</span>
                           </a>
                         </li>
                         <hr className="border-t border-gray-400 my-1" />
-                      </>
+                      </div>
                     ))}
                   </ul>
                 )}

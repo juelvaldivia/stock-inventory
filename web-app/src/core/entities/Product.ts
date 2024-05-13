@@ -10,6 +10,7 @@ export interface Product {
   size: string;
   stockQuantity: number;
   stockLimit: number;
+  imageUrl: string;
   materials: Material[];
 }
 

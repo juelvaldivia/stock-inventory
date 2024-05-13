@@ -18,9 +18,7 @@ const RegisterProduct: React.FC = () => {
       case 'BeforeRegisterProductState':
         return (
           <div className="container mx-auto pl-16">
-            <div className="row flex flex-wrap justify-center">
-              <ProductForm></ProductForm>
-            </div>
+            <ProductForm></ProductForm>
           </div>
         );
       case 'RegisteringProductState':

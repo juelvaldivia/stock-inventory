@@ -5,6 +5,7 @@ import RegisterProduct from '@/core/products/RegisterProduct';
 import RegisterProductHandler from '@/core/products/RegisterProductHandler.ts';
 import MaterialsHandler from './materials/MaterialsHandler';
 import GetMaterials from './materials/GetMaterials';
+import ListSelectorHandler from './listSelector/ListSelectorHandler';
 
 export function productsStateHandler(): ProductsHandler {
   const api = new Api();
@@ -30,8 +31,13 @@ export function materialsStateHandler(): MaterialsHandler {
   return materialsHandler;
 }
 
+export function listSelectorStateHandler(): ListSelectorHandler {
+  return new ListSelectorHandler();
+}
+
 export const AppHandlers = {
   productsStateHandler,
   registerProductStateHandler,
-  materialsStateHandler
+  materialsStateHandler,
+  listSelectorStateHandler
 };
