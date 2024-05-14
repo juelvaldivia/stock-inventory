@@ -1,34 +1,44 @@
 import Api from '@/core/api/index.ts';
+
+import GetBrands from '@/core/brands/GetBrands';
+import BrandsHandler from '@/core/brands/BrandsHandler';
+
+import GetMaterials from '@/core/materials/GetMaterials';
+import MaterialsHandler from '@/core/materials/MaterialsHandler';
+
 import GetProducts from '@/core/products/GetProducts.ts';
 import ProductsHandler from '@/core/products/ProductsHandler.ts';
 import RegisterProduct from '@/core/products/RegisterProduct';
 import RegisterProductHandler from '@/core/products/RegisterProductHandler.ts';
-import MaterialsHandler from './materials/MaterialsHandler';
-import GetMaterials from './materials/GetMaterials';
-import ListSelectorHandler from './listSelector/ListSelectorHandler';
 
-export function productsStateHandler(): ProductsHandler {
+import ListSelectorHandler from '@/core/listSelector/ListSelectorHandler';
+
+export function brandsStateHandler(): BrandsHandler {
   const api = new Api();
-  const getProductsUseCase = new GetProducts(api);
-  const productsHandler = new ProductsHandler(getProductsUseCase);
+  const getBrands = new GetBrands(api);
 
-  return productsHandler;
-}
-
-export function registerProductStateHandler(): RegisterProductHandler {
-  const api = new Api();
-  const registerProductUseCase = new RegisterProduct(api);
-  const registerProductHandler = new RegisterProductHandler(registerProductUseCase);
-
-  return registerProductHandler;
+  return new BrandsHandler(getBrands);
 }
 
 export function materialsStateHandler(): MaterialsHandler {
   const api = new Api();
   const getMaterials = new GetMaterials(api);
-  const materialsHandler = new MaterialsHandler(getMaterials);
 
-  return materialsHandler;
+  return new MaterialsHandler(getMaterials);
+}
+
+export function productsStateHandler(): ProductsHandler {
+  const api = new Api();
+  const getProductsUseCase = new GetProducts(api);
+
+  return new ProductsHandler(getProductsUseCase);
+}
+
+export function registerProductStateHandler(): RegisterProductHandler {
+  const api = new Api();
+  const registerProductUseCase = new RegisterProduct(api);
+
+  return new RegisterProductHandler(registerProductUseCase);
 }
 
 export function listSelectorStateHandler(): ListSelectorHandler {
@@ -36,6 +46,7 @@ export function listSelectorStateHandler(): ListSelectorHandler {
 }
 
 export const AppHandlers = {
+  brandsStateHandler,
   productsStateHandler,
   registerProductStateHandler,
   materialsStateHandler,

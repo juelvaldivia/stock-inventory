@@ -1,25 +1,33 @@
-import ProductsAPIRepository from '@/core/api/products/ProductsAPIRepository.ts';
+import BrandsAPIRepository from '@/core/api/brands/BrandsAPIRepository';
 import MaterialsAPIRepository from '@/core/api/materials/MaterialsAPIRepository';
+import ProductsAPIRepository from '@/core/api/products/ProductsAPIRepository.ts';
 
 export interface API {
-  products(): ProductsAPIRepository;
+  brands(): BrandsAPIRepository;
   materials(): MaterialsAPIRepository;
+  products(): ProductsAPIRepository;
 }
 
 export default class Api implements API {
-  private _products: ProductsAPIRepository;
+  private _brands: BrandsAPIRepository;
   private _materials: MaterialsAPIRepository;
+  private _products: ProductsAPIRepository;
 
   constructor() {
-    this._products = new ProductsAPIRepository();
+    this._brands = new BrandsAPIRepository();
     this._materials = new MaterialsAPIRepository();
+    this._products = new ProductsAPIRepository();
   }
 
-  products(): ProductsAPIRepository {
-    return this._products;
+  brands(): BrandsAPIRepository {
+    return this._brands;
   }
 
   materials(): MaterialsAPIRepository {
     return this._materials;
+  }
+
+  products(): ProductsAPIRepository {
+    return this._products;
   }
 }

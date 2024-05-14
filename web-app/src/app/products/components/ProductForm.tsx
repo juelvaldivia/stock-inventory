@@ -1,33 +1,43 @@
 import React, { useState, useEffect } from 'react';
 
-import { Product } from '@/core/entities/Product';
-import { MaterialsState } from '@/core/materials/MaterialsState';
+import { Material } from '@/core/entities/Material.ts';
+import { Product } from '@/core/entities/Product.ts';
+import { MaterialsState } from '@/core/materials/MaterialsState.ts';
+import { BrandsState } from '@/core/brands/BrandsState.ts';
 
-import InputForm from '@/app/components/Input.tsx';
-import Dropdown from '@/app/components/Dropdown.tsx';
-import ListSelector, { convertToItems } from '@/app/components/ListSelector';
-import Loader from '@/app/components/Loader';
+import { useObserverState } from '@/app/common/StateObserverBuilder';
 import {
+  useBrandHandler,
   useListSelectorHandler,
   useMaterialsHandler,
   useRegisterProductHandler
 } from '@/app/common/ContextsHandlers.tsx';
-import { useObserverState } from '@/app/common/StateObserverBuilder';
-import { Material } from '@/core/entities/Material';
 
-const brands = [
-  {
-    id: '03b61fd7-5632-44a5-a072-bf88d2ec8ffc',
-    name: 'Calzafin'
-  }
-];
+import InputForm from '@/app/components/Input.tsx';
+import Dropdown from '@/app/components/Dropdown.tsx';
+import Loader from '@/app/components/Loader';
+import ListSelector, { convertToItems } from '@/app/components/ListSelector';
 
 const ProductForm: React.FC = () => {
   const registerHandler = useRegisterProductHandler();
+  const brandHandler = useBrandHandler();
+  const brandsState = useObserverState(brandHandler);
   const materialsHandler = useMaterialsHandler();
   const materialsState = useObserverState(materialsHandler);
   const listSelectorHandler = useListSelectorHandler();
   const selectorState = useObserverState(listSelectorHandler);
+
+  const [formData, setFormData] = useState({
+    brandId: '',
+    name: '',
+    category: '',
+    price: '',
+    style: '',
+    size: '',
+    stockQuantity: '',
+    stockLimit: '',
+    materials: []
+  });
 
   useEffect(() => {
     const searchMaterials = async (filter: string) => {
@@ -39,17 +49,21 @@ const ProductForm: React.FC = () => {
     };
   }, [materialsHandler]);
 
-  const [formData, setFormData] = useState({
-    brandId: brands[0].id,
-    name: '',
-    category: '',
-    price: '',
-    style: '',
-    size: '',
-    stockQuantity: '',
-    stockLimit: '',
-    materials: []
-  });
+  useEffect(() => {
+    const searchBrands = async () => {
+      brandHandler.search();
+    };
+
+    return () => {
+      searchBrands();
+    };
+  }, [brandHandler]);
+
+  useEffect(() => {
+    if (brandsState.kind === 'LoadedBrandsState') {
+      setFormData({ ...formData, brandId: brandsState.brands[0].id });
+    }
+  }, [brandsState.kind]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -84,6 +98,8 @@ const ProductForm: React.FC = () => {
       materials: materialsSelected
     };
 
+    console.log(product);
+
     registerHandler.registerProduct(product);
   };
 
@@ -101,15 +117,26 @@ const ProductForm: React.FC = () => {
     }
   };
 
+  const renderBrandsState = (state: BrandsState) => {
+    switch (state.kind) {
+      case 'LoadingBrandsState':
+        return <Loader />;
+      case 'LoadedBrandsState':
+        return (
+          <Dropdown
+            name="brandId"
+            options={state.brands}
+            value={formData.brandId}
+            onChange={handleChange}
+          ></Dropdown>
+        );
+    }
+  };
+
   return (
     <form className="w-full" onSubmit={handleSubmit}>
       <div className="flex flex-wrap mb-6">
-        <Dropdown
-          name="brandId"
-          options={brands}
-          value={formData.brandId}
-          onChange={handleChange}
-        ></Dropdown>
+        {renderBrandsState(brandsState)}
         <InputForm
           name="name"
           type="text"

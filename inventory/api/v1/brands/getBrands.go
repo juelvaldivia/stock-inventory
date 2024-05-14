@@ -17,8 +17,5 @@ func (controller *BrandsController) GetBrands(response http.ResponseWriter, requ
 		return
 	}
 
-	brandMap := make(map[string]interface{})
-	brandMap["brands"] = result
-
-	responses.Json(response, http.StatusOK, brandMap)
+	responses.Json(response, http.StatusOK, result)
 }

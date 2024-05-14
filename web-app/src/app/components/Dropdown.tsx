@@ -31,6 +31,7 @@ const Dropdown: React.FC<DropdownProps> = ({ name, textLabel, options, onChange,
           name={name}
           value={value}
           onChange={onChange}
+          required
         >
           {options.map((option, index) => (
             <option key={`option-${index}`} value={option.id}>

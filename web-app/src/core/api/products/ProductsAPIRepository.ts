@@ -33,10 +33,8 @@ export default class ProductInAPIRepository implements ProductRepository {
         brandId: product.brandId
       };
 
-      console.log(payload);
       const response = await httpClient.instance.post<Product>(endpoint, payload);
 
-      console.log(response);
       return response.data as Product;
     } catch (error) {
       throw new Error('error registering product');

@@ -20,8 +20,5 @@ func (controller *ClientsController) GetClients(
 		return
 	}
 
-	clientMap := make(map[string]interface{})
-	clientMap["clients"] = result
-
-	responses.Json(response, http.StatusOK, clientMap)
+	responses.Json(response, http.StatusOK, result)
 }

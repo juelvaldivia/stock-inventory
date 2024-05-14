@@ -23,8 +23,8 @@ func (clientsRouter *ClientsRouter) GetRoutes() chi.Router {
 	clientsController := clientsController.New(clientsRouter.App)
 
 	router.Get("/", clientsController.GetClients)
-	router.Post("/", clientsController.CreateClient)
-	router.Get("/{id}", clientsController.FindClientById)
+	// router.Post("/", clientsController.CreateClient)
+	// router.Get("/{id}", clientsController.FindClientById)
 
 	return router
 }

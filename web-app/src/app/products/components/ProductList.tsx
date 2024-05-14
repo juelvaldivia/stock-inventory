@@ -49,7 +49,6 @@ const ProductList: React.FC = () => {
                   <div className="p-4">No hay resultados</div>
                 </div>
               )}
-
               {state.products.map((product, index) => (
                 <ProductItem product={product} color={assignColor(index)} key={index} />
               ))}
