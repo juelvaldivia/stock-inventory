@@ -1,18 +1,18 @@
-import RegisterProduct from '@/core/products/RegisterProduct.ts';
+import Inventory from '@/core/inventory/index.ts';
 import StateObserver from '@/core/common/StateObserver.ts';
-import { Product } from '@/core/entities/Product';
+import { Product } from '@/core/entities/Product.ts';
 import {
   RegisterProductState,
   registerProductInitialState
 } from '@/core/products/RegisterProductState.ts';
 
 class RegisterProductHandler extends StateObserver<RegisterProductState> {
-  private _registerProduct: RegisterProduct;
+  private inventory: Inventory;
 
-  constructor(registerProduct: RegisterProduct) {
+  constructor(inventory: Inventory) {
     super(registerProductInitialState);
 
-    this._registerProduct = registerProduct;
+    this.inventory = inventory;
   }
 
   openRegisterProduct() {
@@ -25,7 +25,7 @@ class RegisterProductHandler extends StateObserver<RegisterProductState> {
 
   async registerProduct(product: Product) {
     try {
-      const newProduct = await this._registerProduct.execute(product);
+      const newProduct = await this.inventory.registerProduct(product);
 
       const productState: RegisterProductState = {
         kind: 'RegisteredProductState',

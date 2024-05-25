@@ -28,15 +28,28 @@ export default class MaterialInAPIRepository implements MaterialRepository {
       const payload = {
         name: material.name,
         description: material.description,
-        quantityUsed: material.quantityUsed,
         quantityAvailable: material.quantityAvailable,
         quantityLimit: material.quantityLimit
       };
 
-      console.log(payload);
       const response = await httpClient.instance.post<Material>(endpoint, payload);
 
-      console.log(response);
+      return response.data as Material;
+    } catch (error) {
+      throw new Error('error registering material');
+    }
+  }
+
+  async addQuantity(material: Material, quantity: number): Promise<Material> {
+    try {
+      const httpClient = new HttpClient('http://localhost:4321');
+      const endpoint = `/api/v1/materials/${material.id}/add`;
+      const payload = {
+        quantity
+      };
+
+      const response = await httpClient.instance.post<Material>(endpoint, payload);
+
       return response.data as Material;
     } catch (error) {
       throw new Error('error registering material');

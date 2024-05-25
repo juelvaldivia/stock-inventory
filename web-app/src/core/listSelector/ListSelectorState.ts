@@ -1,4 +1,4 @@
-import { ItemSelector } from '../entities/Item';
+import { ItemSelector } from '@/core/entities/Item.ts';
 
 export interface InitialListState {
   kind: 'InitialListState';

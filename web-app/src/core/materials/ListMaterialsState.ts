@@ -17,10 +17,14 @@ export interface ErrorMaterialsState {
   error: string;
 }
 
-export type MaterialsState = (LoadingMaterialsState | LoadedMaterialsState | ErrorMaterialsState) &
+export type ListMaterialsState = (
+  | LoadingMaterialsState
+  | LoadedMaterialsState
+  | ErrorMaterialsState
+) &
   CommonMaterialsState;
 
-export const materialsInitialState: MaterialsState = {
+export const materialsInitialState: ListMaterialsState = {
   kind: 'LoadingMaterialsState',
   searchTerm: ''
 };

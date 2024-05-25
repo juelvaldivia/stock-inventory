@@ -31,6 +31,13 @@ func FindAll(
 
 			productsList.Items[index].ImageUrl = imageURL
 		}
+
+		materials, err := database.Materials().FindByProduct(product)
+		if err != nil {
+			return entities.ProductsList{}, err
+		}
+
+		productsList.Items[index].Materials = materials
 	}
 
 	return productsList, nil

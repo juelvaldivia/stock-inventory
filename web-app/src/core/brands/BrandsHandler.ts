@@ -1,15 +1,19 @@
-import GetBrands from '@/core/brands/GetBrands.ts';
 import StateObserver from '@/core/common/StateObserver.ts';
 import { BrandsState, brandsInitialState } from '@/core/brands/BrandsState.ts';
+import { API } from '../api';
 
 class BrandsHandler extends StateObserver<BrandsState> {
-  constructor(private getBrandsUseCase: GetBrands) {
+  private api: API;
+
+  constructor(api: API) {
     super(brandsInitialState);
+
+    this.api = api;
   }
 
   async search() {
     try {
-      const brands = await this.getBrandsUseCase.execute();
+      const brands = await this.api.brands().get();
       const brandsState: BrandsState = {
         kind: 'LoadedBrandsState',
         brands: brands

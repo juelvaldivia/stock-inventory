@@ -2,7 +2,8 @@ export interface Material {
   id: string;
   name: string;
   description: string;
-  quantityUsed: number;
+  imageUri?: string;
+  quantityUsed?: number;
   quantityAvailable: number;
   quantityLimit: number;
 }

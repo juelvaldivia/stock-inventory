@@ -1,9 +1,9 @@
 import StateObserver from '@/core/common/StateObserver.ts';
+import { ItemSelector } from '@/core/entities/Item.ts';
 import {
   ListSelectorState,
   listSelectorInitialState
 } from '@/core/listSelector/ListSelectorState.ts';
-import { ItemSelector } from '../entities/Item';
 
 class ListSelectorHandler extends StateObserver<ListSelectorState> {
   constructor() {

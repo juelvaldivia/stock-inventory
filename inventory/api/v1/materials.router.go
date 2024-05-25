@@ -24,6 +24,7 @@ func (materialsRouter *MaterialsRouter) GetRoutes() chi.Router {
 
 	router.Get("/", materialsController.GetMaterials)
 	router.Post("/", materialsController.CreateMaterial)
+	router.Post("/{id}/add", materialsController.AddMaterial)
 
 	return router
 }

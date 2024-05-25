@@ -16,7 +16,14 @@ const options = [
   {
     name: 'Materiales',
     url: '/materials',
-    icon: 'materials'
+    icon: 'materials',
+    subOptions: [
+      {
+        name: 'Registrar',
+        url: '/materials/register',
+        icon: 'register'
+      }
+    ]
   },
   {
     name: 'Productos',

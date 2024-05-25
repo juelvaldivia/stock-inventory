@@ -17,10 +17,10 @@ export interface ErrorProductsState {
   error: string;
 }
 
-export type ProductsState = (LoadingProductsState | LoadedProductsState | ErrorProductsState) &
+export type ListProductsState = (LoadingProductsState | LoadedProductsState | ErrorProductsState) &
   CommonProductsState;
 
-export const productsInitialState: ProductsState = {
+export const productsInitialState: ListProductsState = {
   kind: 'LoadingProductsState',
   searchTerm: ''
 };

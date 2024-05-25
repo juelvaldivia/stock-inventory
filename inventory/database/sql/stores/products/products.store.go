@@ -62,6 +62,7 @@ func (connection *SqlConnection) FindAll(
 		return entities.ProductsList{}, errApplyingFilters
 	}
 
+	// query = applyOrder(query, "DESC")
 	query = applyPagination(query, pagination)
 
 	if err := connection.Select(&products, query); err != nil {
@@ -182,6 +183,10 @@ func (connection *SqlConnection) UpdateImage(product entities.Product, imageUri 
 
 func applyPagination(query string, pagination *utils.Pagination) string {
 	return fmt.Sprintf("%s OFFSET %d LIMIT %d", query, pagination.Offset(), pagination.Limit())
+}
+
+func applyOrder(query string, order string) string {
+	return fmt.Sprintf("%s ORDER BY created_at %s", query, order)
 }
 
 func applyFilters(query string, filters *filters.ProductsFilters) (string, error) {

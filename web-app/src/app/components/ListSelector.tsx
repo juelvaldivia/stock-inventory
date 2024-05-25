@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 
-import { ItemSelector } from '@/core/entities/Item';
+import { ItemSelector } from '@/core/entities/Item.ts';
 
-import { useListSelectorHandler } from '@/app/common/ContextsHandlers';
-import { useObserverState } from '@/app/common/StateObserverBuilder';
+import { useListSelectorHandler } from '@/app/common/ContextsHandlers.tsx';
+import { useObserverState } from '@/app/common/StateObserverBuilder.tsx';
 
 interface ListSelectorProps<T extends ItemSelector> {
   title?: string;
@@ -53,22 +53,28 @@ const ListSelector: React.FC<ListSelectorProps<ItemSelector>> = ({ title, items 
 
   return (
     <div className="container mx-auto px-4">
-      <h2 className="text-2xl font-semibold mb-4">{title || 'List of Items'}</h2>
+      <h2 className="text-xl font-semibold mb-4">{title || 'List of Items'}</h2>
       <div className="row flex flex-wrap justify-start">
         {selectorState.items.map((item) => (
           <div
             key={item.id}
-            className={`flex flex-auto justify-center shadow-md rounded-md p-4 m-3 ${
+            className={`flex flex-auto justify-center shadow-md rounded-md p-2 m-2 ${
               item.selected ? 'bg-green-100' : 'bg-gray-100'
             }`}
           >
-            <span className="cursor-pointer text-xl" onClick={() => onRemoveItem(item)}>
+            <span
+              className="cursor-pointer text-xs md:text-sm lg:text-base"
+              onClick={() => onRemoveItem(item)}
+            >
               -
             </span>
-            <span className="flex-grow text-center">
+            <span className="flex-grow text-center text-xs md:text-sm lg:text-base">
               {item.name}:{` ${item.selected}`}
             </span>
-            <span className="cursor-pointer text-xl" onClick={() => onAddItem(item)}>
+            <span
+              className="cursor-pointer text-xs md:text-sm lg:text-base"
+              onClick={() => onAddItem(item)}
+            >
               +
             </span>
           </div>

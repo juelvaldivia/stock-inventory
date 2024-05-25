@@ -61,6 +61,7 @@ func (connection *SqlConnection) FindAll(
 		return entities.MaterialsList{}, errApplyingFilters
 	}
 
+	query = applyOrder(query, "DESC")
 	query = applyPagination(query, pagination)
 
 	if err := connection.Select(&materials, query); err != nil {
@@ -88,8 +89,8 @@ func (connection *SqlConnection) Create(material entities.Material) (entities.Ma
 	err := connection.Get(
 		&newMaterial,
 		`INSERT INTO materials
-			(name, description, quantity_available, quantity_limit, image_uri)
-		VALUES ($1, $2, $3, $4, $5)
+			(name, description, quantity_available, quantity_limit, image_uri, updated_at)
+		VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP)
 		RETURNING
 			id, name, description, quantity_available AS quantityAvailable,
 			quantity_limit AS quantityLimit`,
@@ -157,7 +158,9 @@ func (connection *SqlConnection) UpdateQuantityAvailable(
 	material entities.Material,
 	newQuantity int,
 ) (entities.Material, error) {
-	var query = `UPDATE materials SET quantity_available = $1 WHERE id = $2`
+	var query = `UPDATE materials
+							 SET quantity_available = $1, updated_at = CURRENT_TIMESTAMP
+							 WHERE id = $2`
 
 	_, err := connection.Exec(query, newQuantity, material.Id)
 	if err != nil {
@@ -169,6 +172,10 @@ func (connection *SqlConnection) UpdateQuantityAvailable(
 
 func applyPagination(query string, pagination *utils.Pagination) string {
 	return fmt.Sprintf("%s OFFSET %d LIMIT %d", query, pagination.Offset(), pagination.Limit())
+}
+
+func applyOrder(query string, order string) string {
+	return fmt.Sprintf("%s ORDER BY created_at %s", query, order)
 }
 
 func applyFilters(query string, filters *filters.MaterialsFilters) (string, error) {

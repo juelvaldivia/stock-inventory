@@ -3,15 +3,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import ProductList from '@/app/products/components/ProductList';
+import ProductList from '@/app/products/components/ProductList.tsx';
 import SearchBar from '@/app/components/SearchBar.tsx';
-import { useProductsHandler } from '@/app/common/ContextsHandlers.tsx';
+import { useListProductsHandler } from '@/app/common/ContextsHandlers.tsx';
 
 const ProductsPage: React.FC = () => {
-  const productsHandler = useProductsHandler();
+  const listProductsHandler = useListProductsHandler();
 
   const onSearchProducts = (name: string) => {
-    productsHandler.search(name);
+    listProductsHandler.search(name);
   };
 
   return (

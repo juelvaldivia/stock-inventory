@@ -1,29 +1,28 @@
 import React, { useState, useEffect } from 'react';
 
-import { Material } from '@/core/entities/Material.ts';
-import { Product } from '@/core/entities/Product.ts';
-import { MaterialsState } from '@/core/materials/MaterialsState.ts';
 import { BrandsState } from '@/core/brands/BrandsState.ts';
+import { Material } from '@/core/entities/Material.ts';
+import { ListMaterialsState } from '@/core/materials/ListMaterialsState.ts';
+import { Product } from '@/core/entities/Product.ts';
 
-import { useObserverState } from '@/app/common/StateObserverBuilder';
+import Dropdown from '@/app/components/Dropdown.tsx';
+import InputForm from '@/app/components/Input.tsx';
+import ListSelector, { convertToItems } from '@/app/components/ListSelector.tsx';
+import Loader from '@/app/components/Loader.tsx';
 import {
   useBrandHandler,
   useListSelectorHandler,
-  useMaterialsHandler,
+  useListMaterialsHandler,
   useRegisterProductHandler
 } from '@/app/common/ContextsHandlers.tsx';
-
-import InputForm from '@/app/components/Input.tsx';
-import Dropdown from '@/app/components/Dropdown.tsx';
-import Loader from '@/app/components/Loader';
-import ListSelector, { convertToItems } from '@/app/components/ListSelector';
+import { useObserverState } from '@/app/common/StateObserverBuilder.tsx';
 
 const ProductForm: React.FC = () => {
   const registerHandler = useRegisterProductHandler();
   const brandHandler = useBrandHandler();
   const brandsState = useObserverState(brandHandler);
-  const materialsHandler = useMaterialsHandler();
-  const materialsState = useObserverState(materialsHandler);
+  const listMaterialsHandler = useListMaterialsHandler();
+  const listMaterialsState = useObserverState(listMaterialsHandler);
   const listSelectorHandler = useListSelectorHandler();
   const selectorState = useObserverState(listSelectorHandler);
 
@@ -41,13 +40,13 @@ const ProductForm: React.FC = () => {
 
   useEffect(() => {
     const searchMaterials = async (filter: string) => {
-      materialsHandler.search(filter);
+      listMaterialsHandler.search(filter);
     };
 
     return () => {
       searchMaterials('');
     };
-  }, [materialsHandler]);
+  }, [listMaterialsHandler]);
 
   useEffect(() => {
     const searchBrands = async () => {
@@ -103,7 +102,7 @@ const ProductForm: React.FC = () => {
     registerHandler.registerProduct(product);
   };
 
-  const renderMaterialState = (state: MaterialsState) => {
+  const renderMaterialState = (state: ListMaterialsState) => {
     switch (state.kind) {
       case 'LoadingMaterialsState':
         return <Loader />;
@@ -140,6 +139,7 @@ const ProductForm: React.FC = () => {
         <InputForm
           name="name"
           type="text"
+          inputClassCustom="mt-3 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white placeholder:text-xs"
           value={formData.name}
           onChange={handleChange}
           placeholder="Nombre de producto"
@@ -147,6 +147,7 @@ const ProductForm: React.FC = () => {
         ></InputForm>
         <InputForm
           name="category"
+          inputClassCustom="mt-3 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white placeholder:text-xs"
           type="text"
           value={formData.category}
           onChange={handleChange}
@@ -155,6 +156,7 @@ const ProductForm: React.FC = () => {
         ></InputForm>
         <InputForm
           name="size"
+          inputClassCustom="mt-3 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white placeholder:text-xs"
           type="text"
           value={formData.size}
           onChange={handleChange}
@@ -163,6 +165,7 @@ const ProductForm: React.FC = () => {
         ></InputForm>
         <InputForm
           name="style"
+          inputClassCustom="mt-3 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white placeholder:text-xs"
           type="text"
           value={formData.style}
           onChange={handleChange}
@@ -171,6 +174,7 @@ const ProductForm: React.FC = () => {
         ></InputForm>
         <InputForm
           name="price"
+          inputClassCustom="mt-3 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white placeholder:text-xs"
           type="number"
           value={formData.price}
           onChange={handleChange}
@@ -179,6 +183,7 @@ const ProductForm: React.FC = () => {
         ></InputForm>
         <InputForm
           name="stockQuantity"
+          inputClassCustom="mt-3 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white placeholder:text-xs"
           type="number"
           value={formData.stockQuantity}
           onChange={handleChange}
@@ -187,13 +192,14 @@ const ProductForm: React.FC = () => {
         ></InputForm>
         <InputForm
           name="stockLimit"
+          inputClassCustom="mt-3 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white placeholder:text-xs"
           type="number"
           value={formData.stockLimit}
           onChange={handleChange}
           placeholder="Límite de stock"
           required={true}
         ></InputForm>
-        {renderMaterialState(materialsState)}
+        {renderMaterialState(listMaterialsState)}
       </div>
       <div className="flex flex-wrap mb-6 py-8">
         <button

@@ -2,12 +2,12 @@
 
 import React, { useEffect } from 'react';
 
-import { ProductsState } from '@/core/products/ProductsState.ts';
+import { ListProductsState } from '@/core/products/ListProductsState.ts';
 
 import Loader from '@/app/components/Loader.tsx';
-import ProductItem from '@/app/products/components/ProductItem';
+import ProductItem from '@/app/products/components/ProductItem.tsx';
 import { useObserverState } from '@/app/common/StateObserverBuilder.tsx';
-import { useProductsHandler } from '@/app/common/ContextsHandlers.tsx';
+import { useListProductsHandler } from '@/app/common/ContextsHandlers.tsx';
 
 const assignColor = (productNumber: number) => {
   const colors = ['blue', 'orange', 'red', 'green', 'yellow', 'pink'];
@@ -21,20 +21,20 @@ const renderErrorState = (error: string) => (
 );
 
 const ProductList: React.FC = () => {
-  const productsHandler = useProductsHandler();
-  const state = useObserverState(productsHandler);
+  const listProductsHandler = useListProductsHandler();
+  const state = useObserverState(listProductsHandler);
 
   useEffect(() => {
     const searchProducts = async (filter: string) => {
-      productsHandler.search(filter);
+      listProductsHandler.search(filter);
     };
 
     return () => {
       searchProducts('');
     };
-  }, [productsHandler]);
+  }, [listProductsHandler]);
 
-  const renderState = (state: ProductsState) => {
+  const renderState = (state: ListProductsState) => {
     switch (state.kind) {
       case 'LoadingProductsState':
         return <Loader />;

@@ -4,62 +4,52 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTags, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import { AppHandlers } from '@/core/AppHandlers.ts';
-import { RegisterProductState } from '@/core/products/RegisterProductState.ts';
+import { RegisterMaterialState } from '@/core/materials/RegisterMaterialState.ts';
 
 import Loader from '@/app/components/Loader.tsx';
-import ProductForm from '@/app/products/components/ProductForm.tsx';
-import { brandsContext } from '@/app/common/ContextsHandlers.tsx';
-import { listSelectorContext } from '@/app/common/ContextsHandlers';
-import { listMaterialsContext } from '@/app/common/ContextsHandlers.tsx';
+import MaterialForm from '@/app/materials/components/MaterialForm.tsx';
 import { useObserverState } from '@/app/common/StateObserverBuilder.tsx';
-import { useRegisterProductHandler } from '@/app/common/ContextsHandlers.tsx';
+import { useRegisterMaterialHandler } from '@/app/common/ContextsHandlers.tsx';
 
-const RegisterProduct: React.FC = () => {
-  const registerHandler = useRegisterProductHandler();
+const RegisterMaterial: React.FC = () => {
+  const registerHandler = useRegisterMaterialHandler();
   const state = useObserverState(registerHandler);
 
-  const renderState = (state: RegisterProductState) => {
+  const renderState = (state: RegisterMaterialState) => {
     switch (state.kind) {
-      case 'BeforeRegisterProductState':
+      case 'BeforeRegisterMaterialState':
         return (
           <div className="container mx-auto pl-16">
-            <listMaterialsContext.Provider value={AppHandlers.app.listMaterialsHandler()}>
-              <brandsContext.Provider value={AppHandlers.app.brandsHandler()}>
-                <listSelectorContext.Provider value={AppHandlers.app.listSelectorHandler()}>
-                  <ProductForm></ProductForm>
-                </listSelectorContext.Provider>
-              </brandsContext.Provider>
-            </listMaterialsContext.Provider>
+            <MaterialForm></MaterialForm>
           </div>
         );
-      case 'RegisteringProductState':
+      case 'RegisteringMaterialState':
         return <Loader />;
-      case 'ErrorRegisteringProductState':
+      case 'ErrorRegisteringMaterialState':
         return (
-          <div className="container mx-auto pl-16">Error registrando el producto {state.error}</div>
+          <div className="container mx-auto pl-16">Error registrando el material {state.error}</div>
         );
-      case 'RegisteredProductState':
+      case 'RegisteredMaterialState':
         return (
           <div className="container mx-auto pl-16">
             <div className="text-center">
               <p className="py-8">
-                Producto <span className="text-xl">{`"${state.product.name}"`} </span>registrado
+                Material <span className="text-xl">{`"${state.material.name}"`} </span>registrado
                 correctamente
               </p>
               <a
-                href="/"
+                href="/materials"
                 className="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue active:bg-blue-700 transition ease-in-out duration-150"
               >
                 <FontAwesomeIcon icon={faTags} className="mr-2" />
-                Listado de productos
+                Listado de materiales
               </a>
               <a
-                href="/products/register/"
+                href="/materials/register/"
                 className="inline-flex items-center px-8 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:border-green-700 focus:shadow-outline-green active:bg-green-700 transition ease-in-out duration-150"
               >
                 <FontAwesomeIcon icon={faPlus} className="mr-2" />
-                Agregar otro producto
+                Agregar otro material
               </a>
             </div>
           </div>
@@ -70,4 +60,4 @@ const RegisterProduct: React.FC = () => {
   return renderState(state);
 };
 
-export default RegisterProduct;
+export default RegisterMaterial;

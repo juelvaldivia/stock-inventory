@@ -2,12 +2,12 @@
 
 import React, { useEffect } from 'react';
 
-import { MaterialsState } from '@/core/materials/MaterialsState.ts';
+import { ListMaterialsState } from '@/core/materials/ListMaterialsState.ts';
 
-import MaterialItem from '@/app/materials/components/MaterialItem.tsx';
 import Loader from '@/app/components/Loader.tsx';
+import MaterialItem from '@/app/materials/components/MaterialItem.tsx';
 import { useObserverState } from '@/app/common/StateObserverBuilder.tsx';
-import { useMaterialsHandler } from '@/app/common/ContextsHandlers.tsx';
+import { useListMaterialsHandler } from '@/app/common/ContextsHandlers.tsx';
 
 const assignColor = (materialNumber: number) => {
   const colors = ['blue', 'orange', 'red', 'green', 'yellow', 'pink'];
@@ -21,20 +21,20 @@ const renderErrorState = (error: string) => (
 );
 
 const MaterialList: React.FC = () => {
-  const materialsHandler = useMaterialsHandler();
-  const state = useObserverState(materialsHandler);
+  const listMaterialsHandler = useListMaterialsHandler();
+  const state = useObserverState(listMaterialsHandler);
 
   useEffect(() => {
     const searchMaterials = async (filter: string) => {
-      materialsHandler.search(filter);
+      listMaterialsHandler.search(filter);
     };
 
     return () => {
       searchMaterials('');
     };
-  }, [materialsHandler]);
+  }, [listMaterialsHandler]);
 
-  const renderState = (state: MaterialsState) => {
+  const renderState = (state: ListMaterialsState) => {
     switch (state.kind) {
       case 'LoadingMaterialsState':
         return <Loader />;

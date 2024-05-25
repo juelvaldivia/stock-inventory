@@ -1,54 +1,56 @@
-import Api from '@/core/api/index.ts';
+import Api, { API } from '@/core/api/index.ts';
 
-import GetBrands from '@/core/brands/GetBrands';
-import BrandsHandler from '@/core/brands/BrandsHandler';
+import Inventory from '@/core/inventory/index.ts';
 
-import GetMaterials from '@/core/materials/GetMaterials';
-import MaterialsHandler from '@/core/materials/MaterialsHandler';
+import BrandsHandler from '@/core/brands/BrandsHandler.ts';
 
-import GetProducts from '@/core/products/GetProducts.ts';
-import ProductsHandler from '@/core/products/ProductsHandler.ts';
-import RegisterProduct from '@/core/products/RegisterProduct';
+import AddMaterialHandler from '@/core/materials/AddMaterialHandler.ts';
+import ListMaterialsHandler from '@/core/materials/ListMaterialsHandler.ts';
+import RegisterMaterialHandler from '@/core/materials/RegisterMaterialHandler.ts';
+
+import ListProductsHandler from '@/core/products/ListProductsHandler.ts';
 import RegisterProductHandler from '@/core/products/RegisterProductHandler.ts';
 
-import ListSelectorHandler from '@/core/listSelector/ListSelectorHandler';
+import ListSelectorHandler from '@/core/listSelector/ListSelectorHandler.ts';
 
-export function brandsStateHandler(): BrandsHandler {
-  const api = new Api();
-  const getBrands = new GetBrands(api);
+export class App {
+  private api: API;
+  private inventory: Inventory;
 
-  return new BrandsHandler(getBrands);
-}
+  constructor() {
+    this.api = new Api();
+    this.inventory = new Inventory(this.api);
+  }
 
-export function materialsStateHandler(): MaterialsHandler {
-  const api = new Api();
-  const getMaterials = new GetMaterials(api);
+  brandsHandler(): BrandsHandler {
+    return new BrandsHandler(this.api);
+  }
 
-  return new MaterialsHandler(getMaterials);
-}
+  listMaterialsHandler(): ListMaterialsHandler {
+    return new ListMaterialsHandler(this.inventory);
+  }
 
-export function productsStateHandler(): ProductsHandler {
-  const api = new Api();
-  const getProductsUseCase = new GetProducts(api);
+  addMaterialHandler(): AddMaterialHandler {
+    return new AddMaterialHandler(this.inventory);
+  }
 
-  return new ProductsHandler(getProductsUseCase);
-}
+  listProductsHandler(): ListProductsHandler {
+    return new ListProductsHandler(this.inventory);
+  }
 
-export function registerProductStateHandler(): RegisterProductHandler {
-  const api = new Api();
-  const registerProductUseCase = new RegisterProduct(api);
+  registerProductHandler(): RegisterProductHandler {
+    return new RegisterProductHandler(this.inventory);
+  }
 
-  return new RegisterProductHandler(registerProductUseCase);
-}
+  registerMaterialHandler(): RegisterMaterialHandler {
+    return new RegisterMaterialHandler(this.inventory);
+  }
 
-export function listSelectorStateHandler(): ListSelectorHandler {
-  return new ListSelectorHandler();
+  listSelectorHandler(): ListSelectorHandler {
+    return new ListSelectorHandler();
+  }
 }
 
 export const AppHandlers = {
-  brandsStateHandler,
-  productsStateHandler,
-  registerProductStateHandler,
-  materialsStateHandler,
-  listSelectorStateHandler
+  app: new App()
 };

@@ -3,15 +3,15 @@
 import { AppHandlers } from '@/core/AppHandlers.ts';
 
 import ProductsPage from '@/app/products/ProductsPage.tsx';
-import Title from '@/app/components/Title';
-import { productsContext } from '@/app/common/ContextsHandlers';
+import Title from '@/app/components/Title.tsx';
+import { listProductsContext } from '@/app/common/ContextsHandlers.tsx';
 
 const ProductsView: React.FC = () => {
   return (
-    <productsContext.Provider value={AppHandlers.productsStateHandler()}>
+    <listProductsContext.Provider value={AppHandlers.app.listProductsHandler()}>
       <Title title="Productos" />
       <ProductsPage />
-    </productsContext.Provider>
+    </listProductsContext.Provider>
   );
 };
 
