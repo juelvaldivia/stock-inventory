@@ -5,7 +5,7 @@ DOCKER_COMPOSE_FILE := ./docker-compose.yml
 COMPOSE_FLAGS := --project-name $(APP_NAME) -f $(DOCKER_COMPOSE_FILE)
 BUILD_FLAGS := --force-rm
 
-SERVICES = inventory webapp
+SERVICES = inventory web-app
 
 .DEFAULT_GOAL := start
 
@@ -20,7 +20,7 @@ help: ## Show this help.
 build: ##@build Builds all containers or just c=<name>
 	@$(DOCKER_COMPOSE) $(COMPOSE_FLAGS) build $(BUILD_FLAGS) $(c)
 
-clean-volumes: ##@clean Cleans all volumes created for 100Ladrillos application in local machine
+clean-volumes: ##@clean Cleans all volumes created for application in local machine
 	@if [[ ! -z $$($(DOCKER) volume ls | grep '$(APP_NAME)') ]]; then \
 		$(DOCKER) volume rm `$(DOCKER) volume ls | grep '${APP_NAME}' | awk '{ print $$2 }'`; \
 	fi
@@ -30,7 +30,7 @@ clean-images: ##@clean Cleans untagged images
 		$(DOCKER) rmi `$(DOCKER) images -f "dangling=true" -q`; \
 	fi
 
-clean: confirm clean-images clean-volumes ##@clean Cleans all volumes and images created for 100Ladrillos application in local machine
+clean: confirm clean-images clean-volumes ##@clean Cleans all volumes and images created for application in local machine
 
 up: ##@execution Starts all services or just c=<name> in the foreground
 	@$(DOCKER_COMPOSE) $(COMPOSE_FLAGS) up $(c)

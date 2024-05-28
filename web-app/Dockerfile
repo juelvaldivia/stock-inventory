@@ -6,7 +6,6 @@ COPY . /var/lib/app/
 
 RUN npm install && npm install -g next
 
-EXPOSE 3000
+EXPOSE 8001
 
-# Comando para ejecutar la aplicación
 CMD ["npm", "run", "dev"]

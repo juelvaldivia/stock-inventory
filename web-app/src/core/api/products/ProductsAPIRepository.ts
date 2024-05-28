@@ -40,4 +40,24 @@ export default class ProductInAPIRepository implements ProductRepository {
       throw new Error('error registering product');
     }
   }
+
+  async produce(product: Product): Promise<Product> {
+    try {
+      const httpClient = new HttpClient('http://localhost:4321');
+      const endpoint = '/api/v1/products';
+      const payload = {
+        name: product.name,
+        category: product.category,
+        price: product.price,
+        stockQuantity: product.stockQuantity,
+        brandId: product.brandId
+      };
+
+      const response = await httpClient.instance.post<Product>(endpoint, payload);
+
+      return response.data as Product;
+    } catch (error) {
+      throw new Error('error registering product');
+    }
+  }
 }
