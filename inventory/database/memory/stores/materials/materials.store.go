@@ -61,6 +61,18 @@ func (store *MaterialStore) FindById(id uuid.UUID) (entities.Material, error) {
 	return entities.Material{}, ErrMaterialNotFound
 }
 
+func (store *MaterialStore) Delete(id uuid.UUID) error {
+	materialId := id.String()
+
+	if _, exists := store.Materials[materialId]; !exists {
+		return ErrMaterialNotFound
+	}
+
+	delete(store.Materials, materialId)
+
+	return nil
+}
+
 func (store *MaterialStore) UpdateStockQuantity(
 	material entities.Material,
 	newQuantity int,

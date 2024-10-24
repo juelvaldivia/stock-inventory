@@ -14,6 +14,8 @@ import (
 )
 
 var ErrCreatingMaterial = errors.New("error creating material")
+var ErrDeletingMaterial = errors.New("error deleting material")
+var ErrDeletingMaterialRowsAffected = errors.New("error deleting material 0 rows affected")
 var ErrGettingMaterials = errors.New("error getting materials")
 var ErrFindingMaterial = errors.New("error finding material")
 var ErrUpdatingMaterialInventory = errors.New("error updating material inventory")
@@ -128,6 +130,27 @@ func (connection *SqlConnection) FindById(id uuid.UUID) (entities.Material, erro
 	}
 
 	return material, nil
+}
+
+func (connection *SqlConnection) Delete(id uuid.UUID) error {
+	var query = `DELETE FROM materials WHERE id = $1`
+
+	result, err := connection.Exec(query, id)
+
+	if err != nil {
+		return errors.Join(ErrDeletingMaterial, err)
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return errors.Join(ErrDeletingMaterialRowsAffected, err)
+	}
+
+	if rowsAffected == 0 {
+		return errors.Join(ErrDeletingMaterialRowsAffected, err)
+	}
+
+	return nil
 }
 
 func (connection *SqlConnection) FindByProduct(

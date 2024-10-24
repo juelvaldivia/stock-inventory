@@ -32,6 +32,7 @@ type ProductsStore interface {
 type MaterialsStore interface {
 	FindAll(pagination *utils.Pagination, filters *filters.MaterialsFilters) (entities.MaterialsList, error)
 	Create(material entities.Material) (entities.Material, error)
+	Delete(id uuid.UUID) error
 	FindById(id uuid.UUID) (entities.Material, error)
 	FindByProduct(product entities.Product) ([]entities.Material, error)
 	UpdateQuantityAvailable(material entities.Material, quantity int) (entities.Material, error)
